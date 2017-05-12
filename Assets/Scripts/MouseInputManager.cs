@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MouseInputManager : MonoBehaviour {
-    //Estados
-    enum State { Free, Selected }
-
 
     //Parâmetros da Unity
     public LayerMask SelectableLayers;
@@ -14,7 +11,6 @@ public class MouseInputManager : MonoBehaviour {
 
 
     //Variáveis de estado
-    private State state;
     public Unit Selection { get; private set; }
 
 
