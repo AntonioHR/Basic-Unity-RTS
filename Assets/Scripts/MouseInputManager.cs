@@ -9,6 +9,7 @@ public class MouseInputManager : MonoBehaviour {
 
     //Parâmetros da Unity
     public LayerMask SelectableLayers;
+    public LayerMask TargetableLayers;
 
 
 
@@ -26,11 +27,19 @@ public class MouseInputManager : MonoBehaviour {
         {
             SelectByMousePos();
         }
+        if(Input.GetMouseButtonDown(1) && Selection != null)
+        {
+            var hit = CastClickRay(TargetableLayers);
+            if(hit.collider != null)
+            {
+                Selection.Target(hit.collider.gameObject, hit.point);
+            }
+        }
 	}
 
     private void SelectByMousePos()
     {
-        var hit = CastClickRay();
+        var hit = CastClickRay(SelectableLayers);
         //Se o raio colidiu com alguma objeto
         if (hit.collider != null)
         {
@@ -38,14 +47,11 @@ public class MouseInputManager : MonoBehaviour {
             //Se esse objeto possui um componente de unidade
             if (unit != Selection)
             {
-                if (unit.Selectable)
-                {
                     if (Selection != null)
                         Selection.Deselect();
-                    if (unit != null)
+                    if (unit != null && unit.Selectable)
                         unit.Select();
                     Selection = unit;
-                }
             }
         }
         else
@@ -56,7 +62,7 @@ public class MouseInputManager : MonoBehaviour {
     }
 
     //Funções Helper
-    private RaycastHit CastClickRay()
+    private static RaycastHit CastClickRay(LayerMask layers)
     {
         //Variável que vai guardar as informações de colisão do raio
         RaycastHit hit;
@@ -66,7 +72,7 @@ public class MouseInputManager : MonoBehaviour {
         Ray r = Camera.main.ScreenPointToRay(MousePosition);
 
         //Chamada do método
-        Physics.Raycast(r, out hit, float.PositiveInfinity, SelectableLayers.value);
+        Physics.Raycast(r, out hit, float.PositiveInfinity, layers.value);
 
         return hit;
     }

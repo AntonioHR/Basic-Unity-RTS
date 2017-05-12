@@ -90,7 +90,7 @@ NavMeshSettings:
     manualCellSize: 0
     cellSize: 0.16666667
     accuratePlacement: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: b93e303f46e40ba47b0cdc3dea6b5229, type: 2}
 --- !u!4 &102181109 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4445603694042704, guid: 154e56c9855284946a14ddec250a12cd,
@@ -107,12 +107,13 @@ GameObject:
   - component: {fileID: 146438939}
   - component: {fileID: 146438938}
   - component: {fileID: 146438937}
-  m_Layer: 0
+  - component: {fileID: 146438941}
+  m_Layer: 9
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!23 &146438937
 MeshRenderer:
@@ -179,6 +180,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &146438941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 146438936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 575d4728b938a834b858206fc049c9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &176113608
 Prefab:
   m_ObjectHideFlags: 0
@@ -260,6 +272,9 @@ MonoBehaviour:
   SelectableLayers:
     serializedVersion: 2
     m_Bits: 256
+  TargetableLayers:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!4 &182103634
 Transform:
   m_ObjectHideFlags: 0

@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(NavMeshAgent))]
 public class Unit : MonoBehaviour {
     public Material idle;
     public Material selected;
 
     MeshRenderer meshRenderer;
+    NavMeshAgent navMeshAgent;
 
 
     public bool Selectable
@@ -19,6 +22,7 @@ public class Unit : MonoBehaviour {
     }
 
 	void Start () {
+        navMeshAgent = GetComponent<NavMeshAgent>();
         meshRenderer = GetComponent<MeshRenderer>();
         meshRenderer.material = idle;
 	}
@@ -37,6 +41,13 @@ public class Unit : MonoBehaviour {
         meshRenderer.material = selected;
     }
 
-
+    public void Target(GameObject target, Vector3 position)
+    {
+        Ground g = target.GetComponent<Ground>();
+        if( g != null)
+        {
+            navMeshAgent.destination = position;
+        }
+    }
 
 }
