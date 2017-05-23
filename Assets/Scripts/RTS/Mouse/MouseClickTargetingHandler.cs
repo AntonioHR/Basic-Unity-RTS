@@ -32,7 +32,6 @@ namespace RTS.Mouse
 
         //Settings
         Settings settings;
-        MouseInputManager manager;
 
 
         //State
@@ -52,10 +51,9 @@ namespace RTS.Mouse
         public event Action<TargetingArguments[]> OnMultiSelect;
 
         //Constructor
-        public MouseClickTargetingHandler(MouseInputManager manager, Settings settings)
+        public MouseClickTargetingHandler(Settings settings)
         {
             this.settings = settings;
-            this.manager = manager;
         }
 
 

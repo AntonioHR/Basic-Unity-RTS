@@ -47,10 +47,9 @@ namespace RTS
             meshRenderer.material = selected;
         }
 
-        public void Target(GameObject target, Vector3 position)
+        public void Target(Ground target, Vector3 position)
         {
-            Ground g = target.GetComponent<Ground>();
-            if (g != null)
+            if (target != null)
             {
                 navMeshAgent.destination = position;
             }

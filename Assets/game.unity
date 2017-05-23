@@ -1291,6 +1291,13 @@ MonoBehaviour:
     Button: 0
     AllowDragging: 1
     dragStartDistance: 0.5
+  TargetSettings:
+    TargetLayers:
+      serializedVersion: 2
+      m_Bits: 512
+    Button: 1
+    AllowDragging: 0
+    dragStartDistance: 0
 --- !u!4 &1667847306
 Transform:
   m_ObjectHideFlags: 0

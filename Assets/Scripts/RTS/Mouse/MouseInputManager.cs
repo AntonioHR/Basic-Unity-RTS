@@ -10,20 +10,34 @@ namespace RTS.Mouse
         [Space()]
         [SerializeField]
         MouseClickTargetingHandler.Settings SelectionSettings;
+        [SerializeField]
+        MouseClickTargetingHandler.Settings TargetSettings;
 
         MouseClickTargetingHandler selectionHandler;
+        MouseClickTargetingHandler targetingHandler;
+
 
         //Funções chamadas pela Unity
         void Update()
         {
             selectionHandler.Update();
+            targetingHandler.Update();
         }
         void Start()
         {
-            selectionHandler = new MouseClickTargetingHandler(this, SelectionSettings);
+            selectionHandler = new MouseClickTargetingHandler(SelectionSettings);
             selectionHandler.OnClicked += OnSelectionClicked;
             selectionHandler.OnMultiSelect += OnMultiSelectionClicked;
             selectionHandler.OnMultiSelectHover += OnMultiSelectionClicked;
+
+            targetingHandler = new MouseClickTargetingHandler(TargetSettings);
+            targetingHandler.OnClicked += OnTargetClicked;
+        }
+
+        private void OnTargetClicked(MouseClickTargetingHandler.TargetingArguments args)
+        {
+            Ground ground = args.Collider == null ? null : args.Collider.GetComponent<Ground>();
+            controller.TryTarget(ground, args.Position);
         }
 
         void OnMultiSelectionClicked(MouseClickTargetingHandler.TargetingArguments[] args)

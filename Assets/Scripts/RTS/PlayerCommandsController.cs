@@ -12,11 +12,6 @@ namespace RTS
         {
             selection = new List<Unit>();
         }
-
-        void Update()
-        {
-
-        }
         public void TrySelect(Unit unit)
         {
             var list = new List<Unit>();
@@ -38,6 +33,10 @@ namespace RTS
                     s.Select();
             }
             selection = selectable;
+        }
+        public void TryTarget(Ground ground, Vector3 point)
+        {
+            selection.ForEach(x => x.Target(ground, point));
         }
         public int SelectionCount { get { return selection.Count; } }
     }

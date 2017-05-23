@@ -31,18 +31,27 @@ namespace RTS.Mouse
             mousePos.z = dist;
             Vector3 startWorldPosition = Camera.main.ScreenToWorldPoint(startPosition);
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePos);
+
+
+
             Quaternion cameraOrientation = Camera.main.transform.rotation;
 
             Vector3 halfExtents = (mouseWorldPosition - startWorldPosition) / 2;
             Vector3 center = startWorldPosition + halfExtents;
             halfExtents = Quaternion.Inverse(cameraOrientation) *  halfExtents;
             halfExtents.z = 1;
+            if (halfExtents.x < 0)
+                halfExtents.x *= -1;
+            if (halfExtents.y < 0)
+                halfExtents.y *= -1;
+            
+            //halfExtents = new Vector3(1, 1, 1);
+            //Debug.Log(halfExtents);
+
             //ExtDebug.DrawBoxCastBox(center,
             //    halfExtents, cameraOrientation, cameraOrientation * Vector3.forward, 100, Color.red);
-
-
             return Physics.BoxCastAll(center, 
-                halfExtents, cameraOrientation * Vector3.forward, cameraOrientation, 100);
+                halfExtents, cameraOrientation * Vector3.forward, cameraOrientation, 100, layers.value);
         }
     }
 }
