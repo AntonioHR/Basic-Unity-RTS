@@ -14,6 +14,7 @@ namespace RTS
         {
             public float range;
             public float attackRangeTolerance = .1f;
+            public int damage;
             public Material idleMaterial;
             public Material selectedMaterial;
         }
@@ -21,10 +22,12 @@ namespace RTS
 
         public Transform selectionIndicator;
         public MeshRenderer meshRenderer;
-        public Animator animator;
+        public UnitAnimationHandler animationHandler;
+
+
+        public event System.Action OnDestroyed;
 
         NavMeshAgent navMeshAgent;
-
         IHittable hitTarget;
 
 
@@ -51,10 +54,18 @@ namespace RTS
             navMeshAgent = GetComponent<NavMeshAgent>();
             meshRenderer = meshRenderer != null? meshRenderer: GetComponent<MeshRenderer>();
             meshRenderer.material = settings.idleMaterial;
+
+            animationHandler.GetComponent<UnitAnimationHandler>();
+            animationHandler.OnHitFrame += HitCurrentTarget;
         }
         void Update()
         {
-            animator.SetBool("WantsToAttack", IsInRange);
+            animationHandler.SetAttacking(IsInRange);
+        }
+        public void OnDestroy()
+        {
+            if (OnDestroyed != null)
+                OnDestroyed();
         }
 
 
@@ -77,7 +88,7 @@ namespace RTS
             meshRenderer.material = settings.idleMaterial; 
         }
 
-        public void Target(ITargetReceiver targetReceiver)
+        public void TargetBy(ITargetReceiver targetReceiver)
         {
             throw new System.NotImplementedException();
         }
@@ -89,19 +100,40 @@ namespace RTS
                 navMeshAgent.stoppingDistance = 0;
                 navMeshAgent.destination = position;
                 var hittable = target as IHittable;
-                if(hittable != null)
+                setHitTarget(hittable);
+                if (hittable != null)
                 {
-                    hitTarget = hittable;
                     navMeshAgent.stoppingDistance = settings.range;
                 }
             }
+            else
+                setHitTarget(null);
         }
 
+        public void HitCurrentTarget()
+        {
+            if(hitTarget!= null)
+                hitTarget.Hit(settings.damage);
+        }
 
         public void Hit(int damage)
         {
             throw new System.NotImplementedException();
         }
 
+
+
+        void clearHitTarget()
+        {
+            setHitTarget(null);
+        }
+        void setHitTarget(IHittable target)
+        {
+            if (hitTarget != null)
+                hitTarget.OnDestroyed -= clearHitTarget;
+            if (target != null)
+                target.OnDestroyed += clearHitTarget;
+            hitTarget = target;
+        }
     }
 }

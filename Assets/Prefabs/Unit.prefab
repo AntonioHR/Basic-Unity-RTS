@@ -75,6 +75,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4421269153886330}
   - component: {fileID: 95761022309896124}
+  - component: {fileID: 114257350894019910}
   m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
@@ -154,7 +155,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 37e23ab1df345ef489c42dcd50a9beff, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -261,6 +262,17 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114257350894019910
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1615328961456362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a748fc1376c7848b37a215db87faad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114680636472568014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -275,11 +287,12 @@ MonoBehaviour:
   settings:
     range: 5
     attackRangeTolerance: 0.4
+    damage: 2
     idleMaterial: {fileID: 2100000, guid: 37e23ab1df345ef489c42dcd50a9beff, type: 2}
     selectedMaterial: {fileID: 2100000, guid: ac58d87789a46ee469cef5c9cea68395, type: 2}
   selectionIndicator: {fileID: 224278834200392794}
   meshRenderer: {fileID: 23909587129389352}
-  animator: {fileID: 95761022309896124}
+  animationHandler: {fileID: 114257350894019910}
 --- !u!114 &114872144484137330
 MonoBehaviour:
   m_ObjectHideFlags: 1

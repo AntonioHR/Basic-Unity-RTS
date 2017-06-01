@@ -598,6 +598,7 @@ GameObject:
   - component: {fileID: 655131534}
   - component: {fileID: 655131533}
   - component: {fileID: 655131536}
+  - component: {fileID: 655131537}
   m_Layer: 11
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -682,7 +683,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     MaxHealth: 10
-  Health: 0
+--- !u!114 &655131537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 655131531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cbaddc8f4bae4b468e211c72b2b314b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idle: {fileID: 2100000, guid: c62c905836379c94b8aa07aa8c06ebe0, type: 2}
+  highlight: {fileID: 2100000, guid: d07974902a417c6479f355711f1d97eb, type: 2}
+  meshRenderer: {fileID: 0}
 --- !u!1001 &691717842
 Prefab:
   m_ObjectHideFlags: 0
@@ -1533,7 +1547,7 @@ MonoBehaviour:
   SelectionSettings:
     TargetLayers:
       serializedVersion: 2
-      m_Bits: 256
+      m_Bits: 2304
     Button: 0
     AllowDragging: 1
     dragStartDistance: 0.5

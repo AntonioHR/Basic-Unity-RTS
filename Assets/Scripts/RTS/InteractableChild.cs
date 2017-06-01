@@ -9,10 +9,20 @@ namespace RTS
     public class InteractableChild: MonoBehaviour,  IInteractive
     {
         public GameObject owner;
+        public event Action OnDestroyed;
 
         public GameObject Owner
         {
             get { return owner; }
         }
+
+        void OnDestroy()
+        {
+            if(OnDestroyed != null)
+            {
+                OnDestroyed();
+            }
+        }
+
     }
 }

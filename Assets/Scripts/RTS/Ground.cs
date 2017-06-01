@@ -9,6 +9,7 @@ namespace RTS
         public GameObject Owner { get { return gameObject; } }
         public bool Targetable { get { return true; } }
         public Vector3 position { get { return transform.position; } }
+        public event System.Action OnDestroyed;
         
 
 
@@ -21,12 +22,18 @@ namespace RTS
         {
 
         }
+        void OnDestroy()
+        {
+            if (OnDestroyed != null)
+                OnDestroyed();
+        }
 
 
-
-        public void Target(ITargetReceiver targetReceiver)
+        public void TargetBy(ITargetReceiver targetReceiver)
         {
         }
+
+
 
     }
 }

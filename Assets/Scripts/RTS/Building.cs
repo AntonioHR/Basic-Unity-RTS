@@ -9,17 +9,18 @@ namespace RTS
         [System.Serializable]
         public class Settings
         {
-            public float MaxHealth = 10;
+            public int MaxHealth = 10;
         }
 
 
 
         public Settings settings;
 
-        public int Health;
+        int Health;
 
 
 
+        public event System.Action OnDestroyed;
         public bool Targetable  {  get { return true; } }
         public bool Hittable { get { return true; } }
         public GameObject Owner { get { return gameObject; } }
@@ -27,7 +28,17 @@ namespace RTS
 
 
 
-        public void Target(ITargetReceiver targetReceiver)
+        void Awake()
+        {
+            Health = settings.MaxHealth;
+        }
+        public void OnDestroy()
+        {
+        }
+
+
+
+        public void TargetBy(ITargetReceiver targetReceiver)
         {
             throw new System.NotImplementedException();
         }
@@ -41,8 +52,12 @@ namespace RTS
         
         public void OnHealthZero()
         {
+            if (OnDestroyed != null)
+                OnDestroyed();
             GameObject.Destroy(gameObject);
         }
+
+
 
 
     }

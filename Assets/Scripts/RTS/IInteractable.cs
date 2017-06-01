@@ -19,13 +19,7 @@ namespace RTS
 
     }
 
-
-    public interface IInteractive
-    {
-        GameObject Owner { get; }
-    }
-
-    public interface ISelectable
+    public interface ISelectable : IDeathNotifier
     {
         bool Selectable { get; }
 
@@ -33,7 +27,7 @@ namespace RTS
         void Deselect();
     }
 
-    public interface IHighlightable
+    public interface IHighlightable : IDeathNotifier
     {
         bool Highlightable { get; }
 
@@ -49,13 +43,18 @@ namespace RTS
 
     }
 
-    public interface ITargetable
+    public interface ITargetable: IDeathNotifier
     {
         bool Targetable { get; }
 
         Vector3 position { get; }
 
-        void Target(ITargetReceiver targetReceiver);
+        void TargetBy(ITargetReceiver targetReceiver);
+    }
+
+    public interface IInteractive
+    {
+        GameObject Owner { get; }
     }
 
     public interface ITargetReceiver
@@ -63,5 +62,10 @@ namespace RTS
         bool CanTarget { get; }
 
         void SetTarget(ITargetable target, Vector3 position);
+    }
+
+    public interface IDeathNotifier
+    {
+        event Action OnDestroyed;
     }
 }
