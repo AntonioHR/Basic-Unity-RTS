@@ -21,9 +21,9 @@ namespace RTS
 
         public Transform selectionIndicator;
         public MeshRenderer meshRenderer;
+        public Animator animator;
 
         NavMeshAgent navMeshAgent;
-        Animator animator;
 
         IHittable hitTarget;
 
@@ -36,6 +36,15 @@ namespace RTS
         public bool Targetable { get { return true; } }
         public bool Hittable { get { return true; } }
         public GameObject Owner { get { return gameObject; } }
+        public Vector3 position { get { return transform.position; } }
+        public bool IsInRange
+        {
+            get
+            {
+                return hitTarget != null &&
+                    (Vector3.Distance(hitTarget.position, transform.position) - settings.attackRangeTolerance) < settings.range;
+            }
+        }
 
         void Start()
         {
@@ -45,7 +54,7 @@ namespace RTS
         }
         void Update()
         {
-
+            animator.SetBool("WantsToAttack", IsInRange);
         }
 
 
@@ -82,7 +91,7 @@ namespace RTS
                 var hittable = target as IHittable;
                 if(hittable != null)
                 {
-                    
+                    hitTarget = hittable;
                     navMeshAgent.stoppingDistance = settings.range;
                 }
             }

@@ -10,7 +10,7 @@ namespace RTS
     {
     }
 
-    public interface IBuilding: ITargetable, IInteractive
+    public interface IBuilding: ITargetable, IInteractive, IHittable
     {
 
     }
@@ -52,6 +52,8 @@ namespace RTS
     public interface ITargetable
     {
         bool Targetable { get; }
+
+        Vector3 position { get; }
 
         void Target(ITargetReceiver targetReceiver);
     }

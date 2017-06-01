@@ -76,6 +76,7 @@ namespace RTS
                 if (convert != null)
                     targetReceivers.Add(convert);
             }
+            Debug.LogFormat("Targeting {0}", targetable);
             targetReceivers.ForEach(x => x.SetTarget(targetable, point));
         }
     }

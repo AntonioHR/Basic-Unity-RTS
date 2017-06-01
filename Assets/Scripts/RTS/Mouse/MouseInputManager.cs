@@ -38,8 +38,8 @@ namespace RTS.Mouse
 
         private void OnTargetClicked(MouseClickTargetingHandler.TargetingArguments args)
         {
-            ITargetable ground = args.Collider.GetComponentInOwner<ITargetable>();
-            controller.TryTarget(ground, args.Position);
+            ITargetable target = args.Collider.GetComponentInOwner<ITargetable>();
+            controller.TryTarget(target, args.Position);
         }
 
         void OnMultiSelectionClicked(MouseClickTargetingHandler.TargetingArguments[] args)
