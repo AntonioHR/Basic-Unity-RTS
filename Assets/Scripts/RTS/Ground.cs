@@ -4,9 +4,13 @@ using UnityEngine;
 
 namespace RTS
 {
-    public class Ground : MonoBehaviour
+    public class Ground : MonoBehaviour, IGround
     {
+        public GameObject Owner { get { return gameObject; } }
+        public bool Targetable { get { return true; } }
         
+
+
         void Start()
         {
 
@@ -16,5 +20,12 @@ namespace RTS
         {
 
         }
+
+
+
+        public void Target(ITargetReceiver targetReceiver)
+        {
+        }
+
     }
 }

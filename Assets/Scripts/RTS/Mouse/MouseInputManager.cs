@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RTS.Util;
 
 namespace RTS.Mouse
 {
@@ -27,8 +28,9 @@ namespace RTS.Mouse
         {
             selectionHandler = new MouseClickTargetingHandler(SelectionSettings);
             selectionHandler.OnClicked += OnSelectionClicked;
+            selectionHandler.OnHover += OnSelectionHover;
             selectionHandler.OnMultiSelect += OnMultiSelectionClicked;
-            selectionHandler.OnMultiSelectHover += OnMultiSelectionClicked;
+            selectionHandler.OnMultiSelectHover += OnMultiSelectionHover;
 
             targetingHandler = new MouseClickTargetingHandler(TargetSettings);
             targetingHandler.OnClicked += OnTargetClicked;
@@ -36,26 +38,43 @@ namespace RTS.Mouse
 
         private void OnTargetClicked(MouseClickTargetingHandler.TargetingArguments args)
         {
-            Ground ground = args.Collider == null ? null : args.Collider.GetComponent<Ground>();
+            ITargetable ground = args.Collider.GetComponentInOwner<ITargetable>();
             controller.TryTarget(ground, args.Position);
         }
 
         void OnMultiSelectionClicked(MouseClickTargetingHandler.TargetingArguments[] args)
         {
-            var units = new List<Unit>();
+            var targets = new List<ISelectable>();
             foreach (var item in args)
             {
-                Unit unit = item.Collider == null ? null : item.Collider.GetComponent<Unit>();
-                if (unit != null)
-                    units.Add(unit);
+                var target = item.Collider.GetComponentInOwner<ISelectable>();
+                if (target != null)
+                    targets.Add(target);
             }
-            controller.TrySelect(units);
+            controller.TrySelect(targets);
+        }
+        void OnMultiSelectionHover(MouseClickTargetingHandler.TargetingArguments[] args)
+        {
+            var targets = new List<IHighlightable>();
+            foreach (var item in args)
+            {
+                var target = item.Collider.GetComponentInOwner<IHighlightable>();
+                if (target != null)
+                    targets.Add(target);
+            }
+            controller.TryHighlight(targets);
         }
 
         void OnSelectionClicked(MouseClickTargetingHandler.TargetingArguments args)
         {
-            Unit unit = args.Collider == null? null : args.Collider.GetComponent<Unit>();
-            controller.TrySelect(unit);
+            var target = args.Collider.GetComponentInOwner<ISelectable>();
+            controller.TrySelect(target);
+        }
+
+        void OnSelectionHover(MouseClickTargetingHandler.TargetingArguments args)
+        {
+            var target = args.Collider.GetComponentInOwner<IHighlightable>();
+            controller.TryHighlight(target);
         }
     }
 }

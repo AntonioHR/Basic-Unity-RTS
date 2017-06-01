@@ -6,20 +6,29 @@ namespace RTS
 {
     public class PlayerCommandsController : MonoBehaviour
     {
-        List<Unit> selection;
+        List<ISelectable> selection;
+        List<IHighlightable> highlight;
+
+
+        public int SelectionCount { get { return selection.Count; } }
+        public int HighlightCount { get { return highlight.Count; } }
+
+
 
         void Start()
         {
-            selection = new List<Unit>();
+            selection = new List<ISelectable>();
+            highlight = new List<IHighlightable>();
         }
-        public void TrySelect(Unit unit)
+
+        public void TrySelect(ISelectable unit)
         {
-            var list = new List<Unit>();
+            var list = new List<ISelectable>();
             if(unit != null)
                 list.Add(unit);
             TrySelect(list);
         }
-        public void TrySelect(List<Unit> units)
+        public void TrySelect(List<ISelectable> units)
         {
             var selectable = units.FindAll(x=>x.Selectable);
             foreach (var s in selection)
@@ -34,10 +43,40 @@ namespace RTS
             }
             selection = selectable;
         }
-        public void TryTarget(Ground ground, Vector3 point)
+
+        public void TryHighlight(IHighlightable unit)
         {
-            selection.ForEach(x => x.Target(ground, point));
+            var list = new List<IHighlightable>();
+            if (unit != null)
+                list.Add(unit);
+            TryHighlight(list);
         }
-        public int SelectionCount { get { return selection.Count; } }
+        public void TryHighlight(List<IHighlightable> units)
+        {
+            var highlightable = units.FindAll(x => x.Highlightable);
+            foreach (var s in highlight)
+            {
+                if (!highlightable.Contains(s))
+                    s.HighlightOff();
+            }
+            foreach (var s in highlightable)
+            {
+                if (!highlight.Contains(s))
+                    s.HighlightOn();
+            }
+            highlight = highlightable;
+        }
+
+        public void TryTarget(ITargetable targetable, Vector3 point)
+        {
+            List<ITargetReceiver> targetReceivers = new List<ITargetReceiver>();
+            foreach (var item in selection)
+            {
+                var convert = item as ITargetReceiver;
+                if (convert != null)
+                    targetReceivers.Add(convert);
+            }
+            targetReceivers.ForEach(x => x.SetTarget(targetable, point));
+        }
     }
 }
