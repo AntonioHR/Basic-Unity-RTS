@@ -44,8 +44,11 @@ namespace RTS
         {
             get
             {
-                return hitTarget != null &&
-                    (Vector3.Distance(hitTarget.position, transform.position) - settings.attackRangeTolerance) < settings.range;
+                if (hitTarget == null)
+                    return false;
+                Vector3 realDistance = hitTarget.position;
+                realDistance.y = transform.position.y;
+                return (Vector3.Distance(realDistance, transform.position) - settings.attackRangeTolerance) < settings.range;
             }
         }
 
@@ -60,7 +63,14 @@ namespace RTS
         }
         void Update()
         {
-            animationHandler.SetAttacking(IsInRange);
+            var inrange = IsInRange;
+            if (inrange)
+            {
+                Vector3 lookTarget = hitTarget.position;
+                lookTarget.y = transform.position.y;
+                transform.LookAt(lookTarget);
+            }
+            animationHandler.SetAttacking(inrange);
         }
         public void OnDestroy()
         {

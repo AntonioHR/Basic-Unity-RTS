@@ -286,7 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     range: 5
-    attackRangeTolerance: 0.4
+    attackRangeTolerance: 0.7
     damage: 2
     idleMaterial: {fileID: 2100000, guid: 37e23ab1df345ef489c42dcd50a9beff, type: 2}
     selectedMaterial: {fileID: 2100000, guid: ac58d87789a46ee469cef5c9cea68395, type: 2}
