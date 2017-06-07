@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RTS
+namespace RTS.World
 {
-    public class Building : MonoBehaviour, IBuilding
+    public class Building : MonoBehaviour, ITargetable, IInteractive, IHittable
     {
         [System.Serializable]
         public class Settings
@@ -56,9 +56,5 @@ namespace RTS
                 OnDestroyed();
             GameObject.Destroy(gameObject);
         }
-
-
-
-
     }
 }

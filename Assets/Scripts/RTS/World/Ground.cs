@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RTS
+namespace RTS.World
 {
-    public class Ground : MonoBehaviour, IGround
+    public class Ground : MonoBehaviour, ITargetable, IInteractive
     {
         public GameObject Owner { get { return gameObject; } }
         public bool Targetable { get { return true; } }

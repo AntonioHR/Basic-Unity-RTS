@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RTS.Util;
 
-namespace RTS.Mouse
+namespace RTS.Input.Mouse
 {
     public class MouseInputManager : MonoBehaviour
     {

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using RTS.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace RTS.Mouse
+namespace RTS.Input.Mouse
 {
     class MouseClickTargetingHandler
     {
@@ -60,7 +61,7 @@ namespace RTS.Mouse
 
         public void Update()
         {
-            var hit = RaycastHelper.CastClickRay(settings.TargetLayers);
+            var hit = RaycastUtils.CastClickRay(settings.TargetLayers);
             var mousePos = Input.mousePosition;
 
             //Do we allow draggin? And Is The target the same from the click start?  And has the mouse not moved much?
@@ -86,7 +87,7 @@ namespace RTS.Mouse
                 }
                 else
                 {
-                    RaycastHit[] allHits = RaycastHelper.BoxSelect(settings.TargetLayers, mouseDownPosition);
+                    RaycastHit[] allHits = RaycastUtils.BoxSelect(settings.TargetLayers, mouseDownPosition);
                     if (OnMultiSelectHover != null)
                         OnMultiSelectHover(allHits.Select(h => new TargetingArguments(h.collider, h.point)).ToArray());
                 }
@@ -101,7 +102,7 @@ namespace RTS.Mouse
                 }
                 else
                 {
-                    RaycastHit[] allHits = RaycastHelper.BoxSelect(settings.TargetLayers, mouseDownPosition);
+                    RaycastHit[] allHits = RaycastUtils.BoxSelect(settings.TargetLayers, mouseDownPosition);
                     if (OnMultiSelect != null)
                         OnMultiSelect(allHits.Select(h => new TargetingArguments(h.collider, h.point)).ToArray());
                 }
