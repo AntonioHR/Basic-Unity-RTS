@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace RTS.Input.Mouse
+namespace RTS.Inputs.Mouse
 {
     class MouseClickTargetingHandler
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RTS.World
 {
-    public class Highlighter : MonoBehaviour, IHighlightable
+    class Highlighter : MonoBehaviour, IHighlightable
     {
         public Material idle;
         public Material highlight;
