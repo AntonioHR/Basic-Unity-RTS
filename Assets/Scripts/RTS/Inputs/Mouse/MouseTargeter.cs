@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace RTS.Inputs.Mouse
 {
-    class MouseClickTargetingHandler
+    public class MouseTargeter
     {
         //Settings Class
         [Serializable]
@@ -52,7 +52,7 @@ namespace RTS.Inputs.Mouse
         public event Action<TargetingArguments[]> OnMultiSelect;
 
         //Constructor
-        public MouseClickTargetingHandler(Settings settings)
+        public MouseTargeter(Settings settings)
         {
             this.settings = settings;
         }

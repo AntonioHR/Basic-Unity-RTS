@@ -6,6 +6,8 @@ namespace RTS
 {
     public class PlayerCommandsController : MonoBehaviour
     {
+        public PlayerCommandsController Current { get; private set; }
+
         List<ISelectable> selection;
         List<IHighlightable> highlight;
 
@@ -14,7 +16,11 @@ namespace RTS
         public int HighlightCount { get { return highlight.Count; } }
 
 
-
+        void Awake()
+        {
+            Debug.Assert(this == FindObjectOfType<PlayerCommandsController>());
+            Current = this;
+        }
         void Start()
         {
             selection = new List<ISelectable>();

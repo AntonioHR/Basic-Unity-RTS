@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace RTS
 {
+
     public interface ISelectable : IDestructionNotifier
     {
         bool Selectable { get; }
@@ -54,5 +55,14 @@ namespace RTS
     public interface IDestructionNotifier
     {
         event Action OnDestroyed;
+    }
+
+    public interface IHealth
+    {
+        float Health { get; }
+
+        float MaxHealth { get; }
+
+        event Action<float> OnHealthChanged;
     }
 }

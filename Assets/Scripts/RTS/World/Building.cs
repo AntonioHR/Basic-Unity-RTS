@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RTS.World
 {
-    public class Building : MonoBehaviour, ITargetable, IInteractive, IHittable
+    public class Building : MonoBehaviour, ITargetable, IInteractive, IHittable, IHealth
     {
         [System.Serializable]
         public class Settings
@@ -14,9 +14,14 @@ namespace RTS.World
 
 
 
+        private int health;
+
         public Settings settings;
 
-        int Health;
+        [Space]
+        public Team team;
+
+        public event System.Action<float> OnHealthChanged;
 
 
 
@@ -25,12 +30,14 @@ namespace RTS.World
         public bool Hittable { get { return true; } }
         public GameObject Owner { get { return gameObject; } }
         public Vector3 position { get { return transform.position; } }
+        public float MaxHealth { get { return settings.MaxHealth; } }
+        public float Health { get { return health; } }
 
 
 
         void Awake()
         {
-            Health = settings.MaxHealth;
+            health = settings.MaxHealth;
         }
         public void OnDestroy()
         {
@@ -45,8 +52,9 @@ namespace RTS.World
 
         public void Hit(int damage)
         {
-            this.Health -= damage;
-            if (this.Health <= 0)
+            this.health -= damage;
+            this.OnHealthChanged(this.health);
+            if (this.health <= 0)
                 OnHealthZero();
         }
         
@@ -56,5 +64,6 @@ namespace RTS.World
                 OnDestroyed();
             GameObject.Destroy(gameObject);
         }
+
     }
 }
