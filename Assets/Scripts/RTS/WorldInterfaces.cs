@@ -6,20 +6,7 @@ using UnityEngine;
 
 namespace RTS
 {
-    public interface IUnit : ISelectable, IHighlightable, IHittable, ITargetReceiver, IInteractive
-    {
-    }
-
-    public interface IBuilding: ITargetable, IInteractive, IHittable
-    {
-
-    }
-    public interface IGround : ITargetable, IInteractive
-    {
-
-    }
-
-    public interface ISelectable : IDeathNotifier
+    public interface ISelectable : IDestructionNotifier
     {
         bool Selectable { get; }
 
@@ -27,7 +14,7 @@ namespace RTS
         void Deselect();
     }
 
-    public interface IHighlightable : IDeathNotifier
+    public interface IHighlightable : IDestructionNotifier
     {
         bool Highlightable { get; }
 
@@ -43,7 +30,7 @@ namespace RTS
 
     }
 
-    public interface ITargetable: IDeathNotifier
+    public interface ITargetable: IDestructionNotifier
     {
         bool Targetable { get; }
 
@@ -64,7 +51,7 @@ namespace RTS
         void SetTarget(ITargetable target, Vector3 position);
     }
 
-    public interface IDeathNotifier
+    public interface IDestructionNotifier
     {
         event Action OnDestroyed;
     }

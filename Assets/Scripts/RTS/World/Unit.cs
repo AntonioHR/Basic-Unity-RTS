@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using RTS.World.Units;
 
 
-namespace RTS
+namespace RTS.World
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class Unit : MonoBehaviour, IUnit
+    public class Unit : MonoBehaviour, ISelectable, IHighlightable, IHittable, ITargetReceiver, IInteractive
     {
         [System.Serializable]
         public class Settings
@@ -18,20 +19,21 @@ namespace RTS
             public Material idleMaterial;
             public Material selectedMaterial;
         }
+
+
+
         public Settings settings;
 
         public Transform selectionIndicator;
         public MeshRenderer meshRenderer;
         public UnitAnimationHandler animationHandler;
 
-
         public event System.Action OnDestroyed;
 
         NavMeshAgent navMeshAgent;
         IHittable hitTarget;
 
-
-
+        
 
         public bool Selectable { get { return true; } }
         public bool Highlightable { get { return true; } }
@@ -51,6 +53,9 @@ namespace RTS
                 return (Vector3.Distance(realDistance, transform.position) - settings.attackRangeTolerance) < settings.range;
             }
         }
+
+
+
 
         void Start()
         {

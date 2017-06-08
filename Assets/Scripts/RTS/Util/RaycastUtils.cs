@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace RTS.Mouse
+namespace RTS.Util
 {
-    static class RaycastHelper
+    static class RaycastUtils
     {
         public static RaycastHit CastClickRay(LayerMask layers)
         {

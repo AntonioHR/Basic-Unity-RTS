@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RTS
+namespace RTS.World
 {
-    public class Highlight : MonoBehaviour, IHighlightable
+    class Highlighter : MonoBehaviour, IHighlightable
     {
         public Material idle;
         public Material highlight;
