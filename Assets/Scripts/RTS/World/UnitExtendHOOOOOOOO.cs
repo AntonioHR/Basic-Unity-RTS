@@ -18,6 +18,7 @@ namespace RTS.World
             public int damage;
             public Material idleMaterial;
             public Material selectedMaterial;
+			public float health = 100f;
         }
 
 
