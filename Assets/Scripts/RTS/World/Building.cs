@@ -10,6 +10,7 @@ namespace RTS.World
         public class Settings
         {
             public int MaxHealth = 10;
+            public int DeathMoraleLoss = 1;
         }
 
 
@@ -63,6 +64,7 @@ namespace RTS.World
             if (OnDestroyed != null)
                 OnDestroyed();
             GameObject.Destroy(gameObject);
+            team.Morale -= settings.DeathMoraleLoss;
         }
 
     }

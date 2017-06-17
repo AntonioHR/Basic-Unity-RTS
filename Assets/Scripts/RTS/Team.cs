@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RTS
 {
-    public class Team: MonoBehaviour
+    public class Team: MonoBehaviour, IHealth
     {
         [System.Serializable]
         public class Settings
@@ -19,6 +19,7 @@ namespace RTS
         public Settings settings;
 
         public event Action<int, Team> OnMoraleChanged;
+        public event Action<float> OnHealthChanged;
 
         private int morale;
 
@@ -37,10 +38,14 @@ namespace RTS
 
                 if (OnMoraleChanged != null)
                     OnMoraleChanged(delta, this);
+                if (OnHealthChanged != null)
+                    OnHealthChanged(value);
             }
         }
 
+        public float Health { get { return morale; } }
 
+        public float MaxHealth { get { return settings.StartMorale; } }
 
         void Start()
         {
