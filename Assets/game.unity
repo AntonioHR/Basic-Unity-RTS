@@ -2554,7 +2554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings:
-    range: 10
+    range: 5
     attackRangeTolerance: 1
     damage: 1
     idleMaterial: {fileID: 0}
@@ -3351,7 +3351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings:
-    range: 2
+    range: 1
     attackRangeTolerance: 1
     damage: 2
     idleMaterial: {fileID: 0}

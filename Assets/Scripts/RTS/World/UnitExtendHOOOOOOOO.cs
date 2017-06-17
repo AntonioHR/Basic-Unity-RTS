@@ -30,6 +30,8 @@ namespace RTS.World
 		public Transform unitTransform;
 		private Vector3 curPos;
 		private Vector3 oldPos;
+		private Vector3 velocity;
+		private float speed;
 
         public event System.Action OnDestroyed;
 
@@ -70,6 +72,7 @@ namespace RTS.World
             animationHandler.OnHitFrame += HitCurrentTarget;
 			curPos = new Vector3 (unitTransform.position.x, unitTransform.position.y, unitTransform.position.z);
 			oldPos = curPos;
+			velocity = new Vector3 (0.0f, 0.0f, 0.0f);
         }
         void Update()
         {
@@ -82,15 +85,19 @@ namespace RTS.World
             }
             animationHandler.SetAttacking(inrange);
 
-			animationHandler.SetWalking(false);
+			//aqui eu descubro se estou andando
 			curPos = unitTransform.position;
 			string curpos = "curPos: " + curPos.ToString();
 			string oldpos = "oldPos: " + oldPos.ToString();
+			velocity = (curPos - oldPos) / Time.deltaTime;
+			speed = Mathf.Sqrt(Mathf.Pow(velocity.x, 2) + Mathf.Pow(velocity.y, 2) + Mathf.Pow(velocity.z,2));
+			Debug.Log ("speed: " + speed.ToString ());
 			Debug.Log(curpos);
 			Debug.Log (oldpos);
-			if(curPos != oldPos)
-			{
-				animationHandler.SetWalking(true);
+			if (curPos != oldPos) {
+				animationHandler.SetWalking (true, speed);
+			} else {
+				animationHandler.SetWalking(false, 0f);
 			}
 
 			oldPos = curPos;
