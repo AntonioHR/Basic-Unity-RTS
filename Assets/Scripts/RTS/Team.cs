@@ -17,7 +17,7 @@ namespace RTS
 
 
         public Settings settings;
-
+        
         public event Action<int, Team> OnMoraleChanged;
         public event Action<float> OnHealthChanged;
 
