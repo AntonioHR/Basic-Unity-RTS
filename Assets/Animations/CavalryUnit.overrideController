@@ -6,5 +6,23 @@ AnimatorOverrideController:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: CavalryUnit
-  m_Controller: {fileID: 0}
-  m_Clips: []
+  m_Controller: {fileID: 9100000, guid: 75366ce85cbd1544bba82fc051456a0e, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: e89666eaddaa9a74597fd634c066464e, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 16c6545aec30fd246b412978a9287f65, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 3ceb43028472a6a43a7352bcda25a510, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 3442f40d479296848b97388a44160bdd, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 3b866f9d93102ae4d8b7d5db6fe1e8d7, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: c5fde694ae0d24744854fd849b3ad557, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 455730515ef94bd46b0feb8d254c9cbb, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 755999abf21d6694a9ebfbfd00e6c7df, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: b7658e3caae76b4429627eb539634d5d, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 8163d04079f1ee94894a7201061261c9, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: f4bbc87320a552c41be73b01e3dfe917, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: f307b258d03522e44b0e34657b8413f4, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: e43a4a26115fe3b43bd42229f63dbac3, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: a6b0a214acbed6c479b060f18ee594c4, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 19c39c2d086dfa144809bf8c57f24dfc, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: a28913f840ad63f4f9a57f05ac3fb38c, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 23e2ceddea1bd844ea7fd30f396f192c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 96bbbc02e6e13d84f965021da35db875, type: 2}
