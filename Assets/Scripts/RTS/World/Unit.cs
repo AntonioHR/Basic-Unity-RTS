@@ -8,7 +8,7 @@ using RTS.World.Units;
 namespace RTS.World
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class Unit : MonoBehaviour, ISelectable, IHighlightable, IHittable, ITargetReceiver, IInteractive
+    public class Unit : MonoBehaviour, ISelectable, IHighlightable, IHittable, ITargetReceiver, IInteractive, IHealth
     {
         [System.Serializable]
         public class Settings
@@ -18,6 +18,7 @@ namespace RTS.World
             public int damage;
             public Material idleMaterial;
             public Material selectedMaterial;
+            public float MaxHealth = 100;
         }
 
 
@@ -28,10 +29,15 @@ namespace RTS.World
         public MeshRenderer meshRenderer;
         public UnitAnimationHandler animationHandler;
 
+        [Space()]
+        public Team team;
+
         public event System.Action OnDestroyed;
+        public event System.Action<float> OnHealthChanged;
 
         NavMeshAgent navMeshAgent;
         IHittable hitTarget;
+        int health;
 
         
 
@@ -40,6 +46,8 @@ namespace RTS.World
         public bool CanTarget { get { return true; } }
         public bool Targetable { get { return true; } }
         public bool Hittable { get { return true; } }
+        public float MaxHealth { get { return settings.MaxHealth; } }
+        public float Health { get { return health; } }
         public GameObject Owner { get { return gameObject; } }
         public Vector3 position { get { return transform.position; } }
         public bool IsInRange

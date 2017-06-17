@@ -5,17 +5,24 @@ using RTS.Util;
 
 namespace RTS.Inputs.Mouse
 {
-    public class MouseInputManager : MonoBehaviour
+    public class MouseBattleInput : MonoBehaviour
     {
+        [System.Serializable]
+        public class Settings
+        {
+            
+            public MouseTargeter.Settings SelectionSettings;
+            
+            public MouseTargeter.Settings TargetSettings;
+        }
+
         public PlayerCommandsController controller;
         [Space()]
-        [SerializeField]
-        MouseClickTargetingHandler.Settings SelectionSettings;
-        [SerializeField]
-        MouseClickTargetingHandler.Settings TargetSettings;
 
-        MouseClickTargetingHandler selectionHandler;
-        MouseClickTargetingHandler targetingHandler;
+        public Settings settings;
+
+        MouseTargeter selectionHandler;
+        MouseTargeter targetingHandler;
 
 
         //Funções chamadas pela Unity
@@ -26,23 +33,23 @@ namespace RTS.Inputs.Mouse
         }
         void Start()
         {
-            selectionHandler = new MouseClickTargetingHandler(SelectionSettings);
+            selectionHandler = new MouseTargeter(settings.SelectionSettings);
             selectionHandler.OnClicked += OnSelectionClicked;
             selectionHandler.OnHover += OnSelectionHover;
             selectionHandler.OnMultiSelect += OnMultiSelectionClicked;
             selectionHandler.OnMultiSelectHover += OnMultiSelectionHover;
 
-            targetingHandler = new MouseClickTargetingHandler(TargetSettings);
+            targetingHandler = new MouseTargeter(settings.TargetSettings);
             targetingHandler.OnClicked += OnTargetClicked;
         }
 
-        private void OnTargetClicked(MouseClickTargetingHandler.TargetingArguments args)
+        private void OnTargetClicked(MouseTargeter.TargetingArguments args)
         {
             ITargetable target = args.Collider.GetComponentInOwner<ITargetable>();
             controller.TryTarget(target, args.Position);
         }
 
-        void OnMultiSelectionClicked(MouseClickTargetingHandler.TargetingArguments[] args)
+        void OnMultiSelectionClicked(MouseTargeter.TargetingArguments[] args)
         {
             var targets = new List<ISelectable>();
             foreach (var item in args)
@@ -53,7 +60,7 @@ namespace RTS.Inputs.Mouse
             }
             controller.TrySelect(targets);
         }
-        void OnMultiSelectionHover(MouseClickTargetingHandler.TargetingArguments[] args)
+        void OnMultiSelectionHover(MouseTargeter.TargetingArguments[] args)
         {
             var targets = new List<IHighlightable>();
             foreach (var item in args)
@@ -65,13 +72,13 @@ namespace RTS.Inputs.Mouse
             controller.TryHighlight(targets);
         }
 
-        void OnSelectionClicked(MouseClickTargetingHandler.TargetingArguments args)
+        void OnSelectionClicked(MouseTargeter.TargetingArguments args)
         {
             var target = args.Collider.GetComponentInOwner<ISelectable>();
             controller.TrySelect(target);
         }
 
-        void OnSelectionHover(MouseClickTargetingHandler.TargetingArguments args)
+        void OnSelectionHover(MouseTargeter.TargetingArguments args)
         {
             var target = args.Collider.GetComponentInOwner<IHighlightable>();
             controller.TryHighlight(target);
