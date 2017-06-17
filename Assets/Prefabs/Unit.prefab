@@ -281,12 +281,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1754996536058198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf50fa4a9fc6e304f87b650dc1f46252, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a018576fcd2fb74fa1ba17978bda174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   settings:
-    range: 5
-    attackRangeTolerance: 0.7
+    range: 1
+    attackRangeTolerance: 1
     damage: 2
     idleMaterial: {fileID: 2100000, guid: 37e23ab1df345ef489c42dcd50a9beff, type: 2}
     selectedMaterial: {fileID: 2100000, guid: ac58d87789a46ee469cef5c9cea68395, type: 2}
