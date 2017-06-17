@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RTS.World
 {
-    public class InteractableChild: MonoBehaviour,  IInteractive
+    public class ChildOfInteractiveGameObject: MonoBehaviour,  IInteractive
     {
         public GameObject owner;
         public event Action OnDestroyed;

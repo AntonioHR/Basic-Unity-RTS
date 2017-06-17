@@ -27,11 +27,11 @@ namespace RTS
             highlight = new List<IHighlightable>();
         }
 
-        public void TrySelect(ISelectable unit)
+        public void TrySelect(ISelectable select)
         {
             var list = new List<ISelectable>();
-            if(unit != null)
-                list.Add(unit);
+            if(select != null)
+                list.Add(select);
             TrySelect(list);
         }
         public void TrySelect(List<ISelectable> units)

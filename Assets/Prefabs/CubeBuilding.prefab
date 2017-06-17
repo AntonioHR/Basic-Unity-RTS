@@ -152,7 +152,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1294385524207982}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.33, y: 1.2, z: -8}
+  m_LocalPosition: {x: -7.33, y: 1.2, z: -2.3}
   m_LocalScale: {x: 1, y: 5.1275063, z: 1.0000005}
   m_Children:
   - {fileID: 4592541454491664}
@@ -218,12 +218,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1294385524207982}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cbaddc8f4bae4b468e211c72b2b314b, type: 3}
+  m_Script: {fileID: 11500000, guid: d79a64b3f71be5e4189993c171facded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   idle: {fileID: 2100000, guid: c62c905836379c94b8aa07aa8c06ebe0, type: 2}
   highlight: {fileID: 2100000, guid: d07974902a417c6479f355711f1d97eb, type: 2}
-  meshRenderer: {fileID: 0}
+  meshRenderer: {fileID: 23936551506849192}
 --- !u!114 &114071768297266830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -360,6 +360,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     MaxHealth: 10
+  team: {fileID: 0}
 --- !u!114 &114809843222961330
 MonoBehaviour:
   m_ObjectHideFlags: 1

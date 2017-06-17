@@ -8,6 +8,7 @@ namespace RTS
 {
     public class Team: MonoBehaviour
     {
+        [System.Serializable]
         public class Settings
         {
             public int StartMorale;
