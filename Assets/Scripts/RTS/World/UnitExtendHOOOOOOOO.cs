@@ -66,8 +66,8 @@ namespace RTS.World
         void Start()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
-           // meshRenderer = meshRenderer != null? meshRenderer: GetComponent<MeshRenderer>();
-           // meshRenderer.material = settings.idleMaterial;
+            //meshRenderer = meshRenderer != null? meshRenderer: GetComponent<MeshRenderer>();
+            //meshRenderer.material = settings.idleMaterial;
 
 			animationHandler.GetComponent<LightInfantryAnimationHandler>();
             animationHandler.OnHitFrame += HitCurrentTarget;
@@ -114,10 +114,12 @@ namespace RTS.World
         public void Deselect()
         {
 			animationHandler.SetSelected (false);
+			selectionIndicator.gameObject.SetActive(false);
         }
         public void Select()
         {
 			animationHandler.SetSelected (true);
+			selectionIndicator.gameObject.SetActive(true);
         }
         
         public void HighlightOn()
