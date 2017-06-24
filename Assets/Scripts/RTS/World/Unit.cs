@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using RTS.World.Units;
-
+using RTS.World.Groups;
+using System;
 
 namespace RTS.World
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class Unit : MonoBehaviour, ISelectable, IHittable, ITargetReceiver, IInteractive, IHealth
+    public class Unit : MonoBehaviour, IHittable, ITargetReceiver, IInteractive, IHealth, ISelectionUnit
     {
         [System.Serializable]
         public class Settings
@@ -31,21 +32,46 @@ namespace RTS.World
 
         public event System.Action OnDestroyed;
         public event System.Action<float> OnHealthChanged;
+        public event Action OnSelected
+        {
+            add
+            {
+                selectionHandler.OnSelected += value;
+            }
+            remove
+            {
+                selectionHandler.OnSelected -= value;
+            }
+        }
+        public event Action OnDeselected
+        {
+            add
+            {
+                selectionHandler.OnDeselected += value;
+            }
+            remove
+            {
+                selectionHandler.OnDeselected -= value;
+            }
+        }
 
         NavMeshAgent navMeshAgent;
         IHittable hitTarget;
         int health;
+        UnitSelectionHandler selectionHandler;
 
         
-
-        public bool Selectable { get { return true; } }
+        
         public bool CanTarget { get { return true; } }
         public bool Targetable { get { return true; } }
         public bool Hittable { get { return true; } }
+
         public float MaxHealth { get { return settings.MaxHealth; } }
         public float Health { get { return health; } }
+
         public GameObject Owner { get { return gameObject; } }
         public Vector3 position { get { return transform.position; } }
+
         public bool IsInRange
         {
             get
@@ -58,15 +84,32 @@ namespace RTS.World
             }
         }
 
+        public SelectionGroup Group
+        {
+            get
+            {
+                return selectionHandler.Group;
+            }
+        }
+        public bool Selectable
+        {
+            get
+            {
+                return selectionHandler.Selectable;
+            }
+        }
 
-
-
+        private void Awake()
+        {
+            selectionHandler = new UnitSelectionHandler(this);
+        }
         void Start()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
 
             animationHandler.GetComponent<UnitAnimationHandler>();
             animationHandler.OnHitFrame += HitCurrentTarget;
+
         }
         void Update()
         {
@@ -83,17 +126,6 @@ namespace RTS.World
         {
             if (OnDestroyed != null)
                 OnDestroyed();
-        }
-
-
-
-        public void Deselect()
-        {
-            selectionIndicator.gameObject.SetActive(false);
-        }
-        public void Select()
-        {
-            selectionIndicator.gameObject.SetActive(true);
         }
         
         public void TargetBy(ITargetReceiver targetReceiver)

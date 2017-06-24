@@ -6,14 +6,13 @@ using UnityEngine;
 
 namespace RTS
 {
-
-    public interface ISelectable : IDestructionNotifier
+    public interface ISelectionUnit : IDestructionNotifier
     {
+        World.Groups.SelectionGroup Group { get; }
         bool Selectable { get; }
-
-        void Select();
-        void Deselect();
+        GameObject Owner { get; }
     }
+
 
     public interface IHighlightable : IDestructionNotifier
     {
