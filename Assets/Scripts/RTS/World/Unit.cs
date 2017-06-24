@@ -8,7 +8,7 @@ using RTS.World.Units;
 namespace RTS.World
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class Unit : MonoBehaviour, ISelectable, IHighlightable, IHittable, ITargetReceiver, IInteractive, IHealth
+    public class Unit : MonoBehaviour, ISelectable, IHittable, ITargetReceiver, IInteractive, IHealth
     {
         [System.Serializable]
         public class Settings
@@ -16,8 +16,6 @@ namespace RTS.World
             public float range;
             public float attackRangeTolerance = .1f;
             public int damage;
-            public Material idleMaterial;
-            public Material selectedMaterial;
             public float MaxHealth = 100;
         }
 
@@ -26,7 +24,6 @@ namespace RTS.World
         public Settings settings;
 
         public Transform selectionIndicator;
-        public MeshRenderer meshRenderer;
         public UnitAnimationHandler animationHandler;
 
         [Space()]
@@ -42,7 +39,6 @@ namespace RTS.World
         
 
         public bool Selectable { get { return true; } }
-        public bool Highlightable { get { return true; } }
         public bool CanTarget { get { return true; } }
         public bool Targetable { get { return true; } }
         public bool Hittable { get { return true; } }
@@ -68,8 +64,6 @@ namespace RTS.World
         void Start()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
-            meshRenderer = meshRenderer != null? meshRenderer: GetComponent<MeshRenderer>();
-            meshRenderer.material = settings.idleMaterial;
 
             animationHandler.GetComponent<UnitAnimationHandler>();
             animationHandler.OnHitFrame += HitCurrentTarget;
@@ -102,15 +96,6 @@ namespace RTS.World
             selectionIndicator.gameObject.SetActive(true);
         }
         
-        public void HighlightOn()
-        {
-            meshRenderer.material = settings.selectedMaterial;
-        }
-        public void HighlightOff()
-        {
-            meshRenderer.material = settings.idleMaterial; 
-        }
-
         public void TargetBy(ITargetReceiver targetReceiver)
         {
             throw new System.NotImplementedException();
