@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RTS.World.Units
+namespace RTS.World.UnitBehavior
 {
     [RequireComponent(typeof(Animator))]
     public class UnitAnimationHandler : MonoBehaviour {

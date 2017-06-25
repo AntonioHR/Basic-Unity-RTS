@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using RTS.World.Units;
-
+using RTS.World.UnitBehavior;
+using RTS.World.Squads;
+using System;
 
 namespace RTS.World
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class Unit : MonoBehaviour, ISelectable, IHighlightable, IHittable, ITargetReceiver, IInteractive, IHealth
+    public class Unit : MonoBehaviour, IHittable, IInteractive, IHealth, ISelectionUnit
     {
         [System.Serializable]
         public class Settings
         {
+            public UnitAttackHandler.Settings attackSettings;
             public float range;
-            public float attackRangeTolerance = .1f;
             public int damage;
-            public Material idleMaterial;
-            public Material selectedMaterial;
             public float MaxHealth = 100;
         }
 
@@ -26,7 +25,6 @@ namespace RTS.World
         public Settings settings;
 
         public Transform selectionIndicator;
-        public MeshRenderer meshRenderer;
         public UnitAnimationHandler animationHandler;
 
         [Space()]
@@ -34,129 +32,116 @@ namespace RTS.World
 
         public event System.Action OnDestroyed;
         public event System.Action<float> OnHealthChanged;
+        public event Action OnSelected
+        {
+            add
+            {
+                squadHandler.OnSelected += value;
+            }
+            remove
+            {
+                squadHandler.OnSelected -= value;
+            }
+        }
+        public event Action OnDeselected
+        {
+            add
+            {
+                squadHandler.OnDeselected += value;
+            }
+            remove
+            {
+                squadHandler.OnDeselected -= value;
+            }
+        }
 
         NavMeshAgent navMeshAgent;
-        IHittable hitTarget;
         int health;
+        UnitSquadHandler squadHandler;
+        UnitAttackHandler attackHandler;
 
-        
+        public ActionInfo CurrentAction { get; set; }
 
-        public bool Selectable { get { return true; } }
-        public bool Highlightable { get { return true; } }
+
+
         public bool CanTarget { get { return true; } }
         public bool Targetable { get { return true; } }
         public bool Hittable { get { return true; } }
+
         public float MaxHealth { get { return settings.MaxHealth; } }
         public float Health { get { return health; } }
+        public float AttackDamage { get { return settings.damage; } }
+        public float Range { get { return settings.range; } }
+        public bool Destroyed { get; private set; }
+
+
         public GameObject Owner { get { return gameObject; } }
         public Vector3 position { get { return transform.position; } }
-        public bool IsInRange
+        public Squad Squad { get { return squadHandler.Squad; } }
+
+        public bool IsInRange { get { return CurrentAction != null && 
+                    CurrentAction.Target != null && attackHandler.IsInRange(CurrentAction.Target.position); } }
+
+        public bool Selectable
         {
             get
             {
-                if (hitTarget == null)
-                    return false;
-                Vector3 realDistance = hitTarget.position;
-                realDistance.y = transform.position.y;
-                return (Vector3.Distance(realDistance, transform.position) - settings.attackRangeTolerance) < settings.range;
+                return squadHandler.Selectable;
             }
         }
 
-
-
-
-        void Start()
+        void Awake()
         {
             navMeshAgent = GetComponent<NavMeshAgent>();
-            meshRenderer = meshRenderer != null? meshRenderer: GetComponent<MeshRenderer>();
-            meshRenderer.material = settings.idleMaterial;
-
-            animationHandler.GetComponent<UnitAnimationHandler>();
-            animationHandler.OnHitFrame += HitCurrentTarget;
+            squadHandler = new UnitSquadHandler(this);
+            attackHandler = new UnitAttackHandler(this, animationHandler, settings.attackSettings);
+        }
+        void Start()
+        {
         }
         void Update()
         {
-            var inrange = IsInRange;
-            if (inrange)
+            if (CurrentAction == null)
+                return;
+            if (CurrentAction.Target != null && CurrentAction.Target.Destroyed)
             {
-                Vector3 lookTarget = hitTarget.position;
-                lookTarget.y = transform.position.y;
-                transform.LookAt(lookTarget);
+                CurrentAction = null;
+                return;
             }
-            animationHandler.SetAttacking(inrange);
+            switch (CurrentAction.Mode)
+            {
+                case ActionMode.Attack:
+                    Debug.Log(CurrentAction.position);
+                    var inRange = IsInRange;
+                    navMeshAgent.SetDestination(CurrentAction.position);
+                    if (!inRange && attackHandler.IsAttacking)
+                        attackHandler.StopAttacking();
+                    else if (inRange && !attackHandler.IsAttacking)
+                        attackHandler.StartAttacking(CurrentAction.Target);
+                    break;
+                case ActionMode.Move:
+                    navMeshAgent.SetDestination(CurrentAction.position);
+                    break;
+                default:
+                    break;
+            }
         }
-        public void OnDestroy()
+        void OnDestroy()
         {
+            Destroyed = true;
             if (OnDestroyed != null)
                 OnDestroyed();
         }
-
-
-
-        public void Deselect()
-        {
-            selectionIndicator.gameObject.SetActive(false);
-        }
-        public void Select()
-        {
-            selectionIndicator.gameObject.SetActive(true);
-        }
         
-        public void HighlightOn()
+        public void OnHit(int damage)
         {
-            meshRenderer.material = settings.selectedMaterial;
-        }
-        public void HighlightOff()
-        {
-            meshRenderer.material = settings.idleMaterial; 
-        }
-
-        public void TargetBy(ITargetReceiver targetReceiver)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetTarget(ITargetable target, Vector3 position)
-        {
-            if (target != null)
-            {
-                navMeshAgent.stoppingDistance = 0;
-                navMeshAgent.destination = position;
-                var hittable = target as IHittable;
-                setHitTarget(hittable);
-                if (hittable != null)
-                {
-                    navMeshAgent.stoppingDistance = settings.range;
-                }
-            }
-            else
-                setHitTarget(null);
-        }
-
-        public void HitCurrentTarget()
-        {
-            if(hitTarget!= null)
-                hitTarget.Hit(settings.damage);
-        }
-
-        public void Hit(int damage)
-        {
-            throw new System.NotImplementedException();
+            this.health -= damage;
+            if (this.health <= 0)
+                GameObject.Destroy(this);
         }
 
 
 
-        void clearHitTarget()
-        {
-            setHitTarget(null);
-        }
-        void setHitTarget(IHittable target)
-        {
-            if (hitTarget != null)
-                hitTarget.OnDestroyed -= clearHitTarget;
-            if (target != null)
-                target.OnDestroyed += clearHitTarget;
-            hitTarget = target;
-        }
+        
     }
 }

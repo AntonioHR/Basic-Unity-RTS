@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RTS.Util;
+using RTS.World.Squads;
 
 namespace RTS.Inputs.Mouse
 {
@@ -51,10 +52,10 @@ namespace RTS.Inputs.Mouse
 
         void OnMultiSelectionClicked(MouseTargeter.TargetingArguments[] args)
         {
-            var targets = new List<ISelectable>();
+            var targets = new List<ISelectionUnit>();
             foreach (var item in args)
             {
-                var target = item.Collider.GetComponentInOwner<ISelectable>();
+                var target = item.Collider.GetComponentInOwner<ISelectionUnit>();
                 if (target != null)
                     targets.Add(target);
             }
@@ -74,7 +75,7 @@ namespace RTS.Inputs.Mouse
 
         void OnSelectionClicked(MouseTargeter.TargetingArguments args)
         {
-            var target = args.Collider.GetComponentInOwner<ISelectable>();
+            var target = args.Collider.GetComponentInOwner<ISelectionUnit>();
             controller.TrySelect(target);
         }
 
