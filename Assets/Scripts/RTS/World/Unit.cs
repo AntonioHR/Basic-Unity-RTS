@@ -110,6 +110,7 @@ namespace RTS.World
             }
             switch (CurrentAction.Mode)
             {
+                //Nota de Rodrigo pra ele mesmo. Refatorar todo esse trecho!
                 case ActionMode.Attack:
                     Debug.Log(CurrentAction.position);
                     var inRange = IsInRange;
@@ -121,6 +122,7 @@ namespace RTS.World
                     break;
                 case ActionMode.Move:
                     navMeshAgent.SetDestination(CurrentAction.position);
+                    attackHandler.StopAttacking();
                     break;
                 default:
                     break;

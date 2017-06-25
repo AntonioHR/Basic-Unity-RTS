@@ -10,7 +10,7 @@ namespace RTS.World
         [System.Serializable]
         public class Settings
         {
-            public int MaxHealth = 10;
+            public int MaxHealth = 20;
             public int DeathMoraleLoss = 1;
         }
 

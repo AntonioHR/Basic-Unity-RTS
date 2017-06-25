@@ -10,5 +10,6 @@ namespace RTS.AI
     public abstract class AIStrategy: ScriptableObject
     {
         public abstract void Step(Squad squad);
+        public abstract void Start();
     }
 }
