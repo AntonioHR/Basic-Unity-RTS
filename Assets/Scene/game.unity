@@ -691,6 +691,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 313120705}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &313296359 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114257350894019910, guid: 154e56c9855284946a14ddec250a12cd,
+    type: 2}
+  m_PrefabInternal: {fileID: 1349043780}
+  m_Script: {fileID: 11500000, guid: e3a748fc1376c7848b37a215db87faad, type: 3}
 --- !u!1001 &319200896
 Prefab:
   m_ObjectHideFlags: 0
@@ -749,6 +755,11 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114680636472568014, guid: 154e56c9855284946a14ddec250a12cd,
+        type: 2}
+      propertyPath: animationHandler
+      value: 
+      objectReference: {fileID: 1602677519}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 154e56c9855284946a14ddec250a12cd, type: 2}
   m_IsPrefabParent: 0
@@ -2459,14 +2470,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a018576fcd2fb74fa1ba17978bda174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curPos: {x: 0, y: 0, z: 0}
+  oldPos: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  speed: 0
   settings:
     attackSettings:
       startRange: 1
       stayRange: 1.5
-    range: 1
+    range: 3
     damage: 2
     MaxHealth: 100
   selectionIndicator: {fileID: 1839059390}
+  animationHandler: {fileID: 1233751528}
   team: {fileID: 1733149576}
 --- !u!4 &1073523790
 Transform:
@@ -2755,13 +2771,12 @@ GameObject:
 --- !u!114 &1233751528
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114761571252196142, guid: 827c1f925b004d546a1055e6a2c5507e,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1233751527}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e85ffb8654d3bf4195436575fd194b2, type: 3}
+  m_Script: {fileID: 11500000, guid: e3a748fc1376c7848b37a215db87faad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!95 &1233751529
@@ -2775,7 +2790,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 9888833af79037a429d9176fb9f366bc, type: 3}
   m_Controller: {fileID: 9100000, guid: 75366ce85cbd1544bba82fc051456a0e, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -2945,6 +2960,11 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114680636472568014, guid: 154e56c9855284946a14ddec250a12cd,
+        type: 2}
+      propertyPath: animationHandler
+      value: 
+      objectReference: {fileID: 313296359}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 154e56c9855284946a14ddec250a12cd, type: 2}
   m_IsPrefabParent: 0
@@ -3722,6 +3742,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7de0a745c5c4cc1498ee3e4d61422f90, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1602677519 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114257350894019910, guid: 154e56c9855284946a14ddec250a12cd,
+    type: 2}
+  m_PrefabInternal: {fileID: 319200896}
+  m_Script: {fileID: 11500000, guid: e3a748fc1376c7848b37a215db87faad, type: 3}
 --- !u!1 &1614969477
 GameObject:
   m_ObjectHideFlags: 0
@@ -3836,7 +3862,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1663935058
 Transform:
   m_ObjectHideFlags: 0
