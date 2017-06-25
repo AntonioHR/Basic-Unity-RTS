@@ -17,6 +17,8 @@ namespace RTS
         private Button newBattleButton;
         [SerializeField]
         private Button exitButton;
+        [SerializeField]
+        private Button joinButton;
 
         public void Start()
         {
@@ -26,6 +28,8 @@ namespace RTS
             var battleSceneManager = FindObjectOfType<BattleSceneManager>();
             newBattleButton.onClick.AddListener(() => battleSceneManager.StartNewBattle());
             exitButton.onClick.AddListener(() => battleSceneManager.ExitBattle());
+            var playerCommandsController = FindObjectOfType<PlayerCommandsController>();
+            joinButton.onClick.AddListener(() => playerCommandsController.TryMergeSelection());
         }
 
         public void ShowWin()

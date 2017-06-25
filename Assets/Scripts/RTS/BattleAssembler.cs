@@ -13,6 +13,7 @@ namespace RTS
         {
             public MouseBattleInput.Settings mouseInput;
             public BattleSceneManager.Settings sceneManager;
+            public AI.AIStrategy strategy;
         }
 
 
@@ -50,6 +51,13 @@ namespace RTS
                 manager.settings = settings.sceneManager;
             });
             sceneManager.transform.parent = transform;
+
+            var squadAIHandler = InstancingUtils.CreateWithPreemptiveExecution<SquadAIHandler>((handler) =>
+            {
+                handler.strategy = settings.strategy;
+            });
+            squadAIHandler.transform.parent = transform;
+
         }
     }
 }

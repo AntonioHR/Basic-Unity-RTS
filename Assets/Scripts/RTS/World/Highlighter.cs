@@ -14,6 +14,13 @@ namespace RTS.World
 
         public bool Highlightable { get { return this.isActiveAndEnabled; } }
 
+        public bool Destroyed
+        {
+            get;
+            private set;
+        }
+
+
 
 
         void Start()
@@ -23,6 +30,7 @@ namespace RTS.World
         }
         void OnDestroy()
         {
+            Destroyed = true;
             if (OnDestroyed != null)
                 OnDestroyed();
         }

@@ -177,13 +177,14 @@ GameObject:
   - component: {fileID: 64031412517884424}
   - component: {fileID: 23390333546105774}
   - component: {fileID: 114114307051266034}
+  - component: {fileID: 114124760637413054}
   m_Layer: 8
   m_Name: SelectionIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4017334907356208
 Transform:
   m_ObjectHideFlags: 1
@@ -204,7 +205,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1416645840273334}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: -0.004, y: 0.5, z: -0.023}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4421269153886330}
@@ -231,7 +232,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1754996536058198}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4421269153886330}
@@ -389,6 +390,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fixatePosition: 0
   fixateRotation: 1
+--- !u!114 &114124760637413054
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1993732775123028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d1f1790699e1840a4bd099f805c8c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 114680636472568014}
 --- !u!114 &114176184968756632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -562,14 +575,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings:
-    range: 0.5
-    attackRangeTolerance: 2
+    attackSettings:
+      startRange: 1
+      stayRange: 1.5
+    range: 3
     damage: 2
-    idleMaterial: {fileID: 2100000, guid: 37e23ab1df345ef489c42dcd50a9beff, type: 2}
-    selectedMaterial: {fileID: 2100000, guid: ac58d87789a46ee469cef5c9cea68395, type: 2}
     MaxHealth: 100
   selectionIndicator: {fileID: 4017334907356208}
-  meshRenderer: {fileID: 23909587129389352}
   animationHandler: {fileID: 114257350894019910}
   team: {fileID: 0}
 --- !u!114 &114846217915176202
