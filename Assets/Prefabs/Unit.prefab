@@ -575,8 +575,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings:
-    range: 0.5
-    attackRangeTolerance: 2
+    attackSettings:
+      startRange: 1
+      stayRange: 1.5
+    range: 3
     damage: 2
     MaxHealth: 100
   selectionIndicator: {fileID: 4017334907356208}

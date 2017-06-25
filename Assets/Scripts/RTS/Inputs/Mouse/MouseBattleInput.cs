@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RTS.Util;
-using RTS.World.Groups;
+using RTS.World.Squads;
 
 namespace RTS.Inputs.Mouse
 {

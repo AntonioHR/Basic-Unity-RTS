@@ -1,4 +1,4 @@
-﻿using RTS.World.Groups;
+﻿using RTS.World.Squads;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +10,9 @@ namespace RTS
     {
         public PlayerCommandsController Current { get; private set; }
         
-        List<SelectionGroup> selection;
+        List<Squad> selection;
         List<IHighlightable> highlight;
 
-
-        //public int SelectionCount { get { return selection.Count; } }
         public int HighlightCount { get { return highlight.Count; } }
 
 
@@ -25,7 +23,7 @@ namespace RTS
         }
         void Start()
         {
-            selection = new List<SelectionGroup>();
+            selection = new List<Squad>();
             highlight = new List<IHighlightable>();
         }
 
@@ -39,7 +37,7 @@ namespace RTS
         public void TrySelect(List<ISelectionUnit> units)
         {
             var selectable = units.FindAll(x=>x.Selectable);
-            var selectableGroups = units.Select(x => x.Group).Distinct();
+            var selectableGroups = units.Select(x => x.Squad).Distinct();
 
             var unselectedGroups = selection.Where(x => !selectableGroups.Contains(x));
             foreach (var group in unselectedGroups)
@@ -55,13 +53,14 @@ namespace RTS
 
         public void TryMergeSelection()
         {
-            var result = new SelectionGroup();
+            Squad.Create();
+            var result = Squad.Create();
             foreach (var group in selection)
             {
                 group.MergeInto(result);
             }
 
-            selection = new List<SelectionGroup>();
+            selection = new List<Squad>();
             selection.Add(result);
             result.Select();
         }
@@ -92,16 +91,9 @@ namespace RTS
 
         public void TryTarget(ITargetable targetable, Vector3 point)
         {
-            foreach (var group in selection)
+            foreach (var squad in selection)
             {
-                var targetReceivers = group.Units.Select(x => x.Owner.GetComponent<ITargetReceiver>())
-                    .Where(x=>x != null).ToList();
-                foreach (var targetReceiver in targetReceivers)
-                {
-                    Debug.LogFormat("Setting target {0} -> {1}", targetReceiver, targetable);
-                    targetReceiver.SetTarget(targetable, point);
-                }
-                
+                squad.setTarget(new TargetInformation(targetable as IHittable, point));
             }
         }
     }

@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using RTS.World.Units;
-using RTS.World.Groups;
+using RTS.World.UnitBehavior;
+using RTS.World.Squads;
 using System;
 
 namespace RTS.World
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class Unit : MonoBehaviour, IHittable, ITargetReceiver, IInteractive, IHealth, ISelectionUnit
+    public class Unit : MonoBehaviour, IHittable, IInteractive, IHealth, ISelectionUnit
     {
         [System.Serializable]
         public class Settings
         {
+            public UnitAttackHandler.Settings attackSettings;
             public float range;
-            public float attackRangeTolerance = .1f;
             public int damage;
             public float MaxHealth = 100;
         }
@@ -36,144 +36,112 @@ namespace RTS.World
         {
             add
             {
-                selectionHandler.OnSelected += value;
+                squadHandler.OnSelected += value;
             }
             remove
             {
-                selectionHandler.OnSelected -= value;
+                squadHandler.OnSelected -= value;
             }
         }
         public event Action OnDeselected
         {
             add
             {
-                selectionHandler.OnDeselected += value;
+                squadHandler.OnDeselected += value;
             }
             remove
             {
-                selectionHandler.OnDeselected -= value;
+                squadHandler.OnDeselected -= value;
             }
         }
 
         NavMeshAgent navMeshAgent;
-        IHittable hitTarget;
         int health;
-        UnitSelectionHandler selectionHandler;
+        UnitSquadHandler squadHandler;
+        UnitAttackHandler attackHandler;
 
-        
-        
+        public ActionInfo CurrentAction { get; set; }
+
+
+
         public bool CanTarget { get { return true; } }
         public bool Targetable { get { return true; } }
         public bool Hittable { get { return true; } }
 
         public float MaxHealth { get { return settings.MaxHealth; } }
         public float Health { get { return health; } }
+        public float AttackDamage { get { return settings.damage; } }
+        public float Range { get { return settings.range; } }
+        public bool Destroyed { get; private set; }
+
 
         public GameObject Owner { get { return gameObject; } }
         public Vector3 position { get { return transform.position; } }
+        public Squad Squad { get { return squadHandler.Squad; } }
 
-        public bool IsInRange
-        {
-            get
-            {
-                if (hitTarget == null)
-                    return false;
-                Vector3 realDistance = hitTarget.position;
-                realDistance.y = transform.position.y;
-                return (Vector3.Distance(realDistance, transform.position) - settings.attackRangeTolerance) < settings.range;
-            }
-        }
+        public bool IsInRange { get { return CurrentAction != null && 
+                    CurrentAction.Target != null && attackHandler.IsInRange(CurrentAction.Target.position); } }
 
-        public SelectionGroup Group
-        {
-            get
-            {
-                return selectionHandler.Group;
-            }
-        }
         public bool Selectable
         {
             get
             {
-                return selectionHandler.Selectable;
+                return squadHandler.Selectable;
             }
         }
 
-        private void Awake()
+        void Awake()
         {
-            selectionHandler = new UnitSelectionHandler(this);
+            navMeshAgent = GetComponent<NavMeshAgent>();
+            squadHandler = new UnitSquadHandler(this);
+            attackHandler = new UnitAttackHandler(this, animationHandler, settings.attackSettings);
         }
         void Start()
         {
-            navMeshAgent = GetComponent<NavMeshAgent>();
-
-            animationHandler.GetComponent<UnitAnimationHandler>();
-            animationHandler.OnHitFrame += HitCurrentTarget;
-
         }
         void Update()
         {
-            var inrange = IsInRange;
-            if (inrange)
+            if (CurrentAction == null)
+                return;
+            if (CurrentAction.Target != null && CurrentAction.Target.Destroyed)
             {
-                Vector3 lookTarget = hitTarget.position;
-                lookTarget.y = transform.position.y;
-                transform.LookAt(lookTarget);
+                CurrentAction = null;
+                return;
             }
-            animationHandler.SetAttacking(inrange);
+            switch (CurrentAction.Mode)
+            {
+                case ActionMode.Attack:
+                    Debug.Log(CurrentAction.position);
+                    var inRange = IsInRange;
+                    navMeshAgent.SetDestination(CurrentAction.position);
+                    if (!inRange && attackHandler.IsAttacking)
+                        attackHandler.StopAttacking();
+                    else if (inRange && !attackHandler.IsAttacking)
+                        attackHandler.StartAttacking(CurrentAction.Target);
+                    break;
+                case ActionMode.Move:
+                    navMeshAgent.SetDestination(CurrentAction.position);
+                    break;
+                default:
+                    break;
+            }
         }
-        public void OnDestroy()
+        void OnDestroy()
         {
+            Destroyed = true;
             if (OnDestroyed != null)
                 OnDestroyed();
         }
         
-        public void TargetBy(ITargetReceiver targetReceiver)
+        public void OnHit(int damage)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetTarget(ITargetable target, Vector3 position)
-        {
-            if (target != null)
-            {
-                navMeshAgent.stoppingDistance = 0;
-                navMeshAgent.destination = position;
-                var hittable = target as IHittable;
-                setHitTarget(hittable);
-                if (hittable != null)
-                {
-                    navMeshAgent.stoppingDistance = settings.range;
-                }
-            }
-            else
-                setHitTarget(null);
-        }
-
-        public void HitCurrentTarget()
-        {
-            if(hitTarget!= null)
-                hitTarget.Hit(settings.damage);
-        }
-
-        public void Hit(int damage)
-        {
-            throw new System.NotImplementedException();
+            this.health -= damage;
+            if (this.health <= 0)
+                GameObject.Destroy(this);
         }
 
 
 
-        void clearHitTarget()
-        {
-            setHitTarget(null);
-        }
-        void setHitTarget(IHittable target)
-        {
-            if (hitTarget != null)
-                hitTarget.OnDestroyed -= clearHitTarget;
-            if (target != null)
-                target.OnDestroyed += clearHitTarget;
-            hitTarget = target;
-        }
+        
     }
 }

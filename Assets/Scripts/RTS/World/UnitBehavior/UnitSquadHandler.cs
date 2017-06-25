@@ -1,13 +1,13 @@
-﻿using RTS.World.Groups;
+﻿using RTS.World.Squads;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace RTS.World.Units
+namespace RTS.World.UnitBehavior
 {
-    public class UnitSelectionHandler : SelectionUnitBase
+    public class UnitSquadHandler : SquadElement
     {
         private Unit unit;
 
@@ -18,11 +18,13 @@ namespace RTS.World.Units
                 return unit.Owner;
             }
         }
+        public override Unit Unit { get { return unit; } }
+        public override bool Destroyed { get { return Unit.Destroyed; } }
 
         public event Action OnSelected;
         public event Action OnDeselected;
 
-        public UnitSelectionHandler(Unit unit) : base(new SelectionGroup())
+        public UnitSquadHandler(Unit unit) : base(Squad.Create())
         {
             this.unit = unit;
         }
@@ -40,7 +42,7 @@ namespace RTS.World.Units
                 OnSelected();
         }
 
-        internal override void OnGroupChanged(SelectionGroup oldGroup)
+        internal override void OnGroupChanged(Squad oldGroup)
         {
 
         }

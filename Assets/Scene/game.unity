@@ -638,12 +638,12 @@ Prefab:
     - target: {fileID: 224218336115506198, guid: 154e56c9855284946a14ddec250a12cd,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224218336115506198, guid: 154e56c9855284946a14ddec250a12cd,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 154e56c9855284946a14ddec250a12cd, type: 2}
@@ -2038,12 +2038,12 @@ Prefab:
     - target: {fileID: 224218336115506198, guid: 154e56c9855284946a14ddec250a12cd,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224218336115506198, guid: 154e56c9855284946a14ddec250a12cd,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 154e56c9855284946a14ddec250a12cd, type: 2}
@@ -2219,6 +2219,7 @@ MonoBehaviour:
     sceneManager:
       battleSceneName: Scene/game
       menuSceneName: Scene/Menu
+    strategy: {fileID: 11400000, guid: fa173a95555fd794b9eee502b07a7341, type: 2}
   playerTeam: {fileID: 1733149576}
   opposingTeam: {fileID: 1033406580}
   battleUI: {fileID: 993291442}
