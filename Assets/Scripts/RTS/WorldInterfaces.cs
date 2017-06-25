@@ -6,14 +6,13 @@ using UnityEngine;
 
 namespace RTS
 {
-
-    public interface ISelectable : IDestructionNotifier
+    public interface ISelectionUnit : IDestructionNotifier
     {
+        World.Squads.Squad Squad { get; }
         bool Selectable { get; }
-
-        void Select();
-        void Deselect();
+        GameObject Owner { get; }
     }
+
 
     public interface IHighlightable : IDestructionNotifier
     {
@@ -27,7 +26,7 @@ namespace RTS
     {
         bool Hittable { get; }
 
-        void Hit(int damage);
+        void OnHit(int damage);
 
     }
 
@@ -36,8 +35,6 @@ namespace RTS
         bool Targetable { get; }
 
         Vector3 position { get; }
-
-        void TargetBy(ITargetReceiver targetReceiver);
     }
 
     public interface IInteractive
@@ -45,16 +42,10 @@ namespace RTS
         GameObject Owner { get; }
     }
 
-    public interface ITargetReceiver
-    {
-        bool CanTarget { get; }
-
-        void SetTarget(ITargetable target, Vector3 position);
-    }
-
     public interface IDestructionNotifier
     {
         event Action OnDestroyed;
+        bool Destroyed { get; }
     }
 
     public interface IHealth

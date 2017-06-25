@@ -1,4 +1,5 @@
 ﻿using RTS.Inputs.Mouse;
+using RTS.Util;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,12 +12,15 @@ namespace RTS
         public class Settings
         {
             public MouseBattleInput.Settings mouseInput;
+            public BattleSceneManager.Settings sceneManager;
+            public AI.AIStrategy strategy;
         }
 
 
         public Settings settings;
         public Team playerTeam;
         public Team opposingTeam;
+        public BattleUI battleUI;
 
         PlayerCommandsController playerCommands;
         MouseBattleInput mouseInput;
@@ -31,16 +35,29 @@ namespace RTS
             playerCommandsObj.transform.parent = this.transform;
             playerCommands = playerCommandsObj.AddComponent<PlayerCommandsController>();
 
+            battleManager = new Battle(playerTeam, opposingTeam);
 
             var mouseInputObj = new GameObject("MouseInputManager");
-            mouseInputObj.transform.parent = this.transform;
+            mouseInputObj.transform.parent = playerCommands.transform;
             mouseInput = mouseInputObj.AddComponent<MouseBattleInput>();
             mouseInput.settings = settings.mouseInput;
             mouseInput.controller = playerCommands;
 
-            battleManager = new Battle(playerTeam, opposingTeam);
+            sceneManager = InstancingUtils.CreateWithPreemptiveExecution<BattleSceneManager>((manager) =>
+            {
+                manager.battle = battleManager;
+                manager.battleUI = battleUI;
+                manager.playerCommands = playerCommands;
+                manager.settings = settings.sceneManager;
+            });
+            sceneManager.transform.parent = transform;
 
-            sceneManager = new BattleSceneManager(battleManager, playerCommands);
+            var squadAIHandler = InstancingUtils.CreateWithPreemptiveExecution<SquadAIHandler>((handler) =>
+            {
+                handler.strategy = settings.strategy;
+            });
+            squadAIHandler.transform.parent = transform;
+
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using RTS.World.Squads;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RTS
@@ -7,12 +9,10 @@ namespace RTS
     public class PlayerCommandsController : MonoBehaviour
     {
         public PlayerCommandsController Current { get; private set; }
-
-        List<ISelectable> selection;
+        
+        List<Squad> selection;
         List<IHighlightable> highlight;
 
-
-        public int SelectionCount { get { return selection.Count; } }
         public int HighlightCount { get { return highlight.Count; } }
 
 
@@ -23,32 +23,48 @@ namespace RTS
         }
         void Start()
         {
-            selection = new List<ISelectable>();
+            selection = new List<Squad>();
             highlight = new List<IHighlightable>();
         }
 
-        public void TrySelect(ISelectable select)
+        public void TrySelect(ISelectionUnit select)
         {
-            var list = new List<ISelectable>();
+            var list = new List<ISelectionUnit>();
             if(select != null)
                 list.Add(select);
             TrySelect(list);
         }
-        public void TrySelect(List<ISelectable> units)
+        public void TrySelect(List<ISelectionUnit> units)
         {
             var selectable = units.FindAll(x=>x.Selectable);
-            foreach (var s in selection)
+            var selectableGroups = units.Select(x => x.Squad).Distinct();
+
+            var unselectedGroups = selection.Where(x => !selectableGroups.Contains(x));
+            foreach (var group in unselectedGroups)
             {
-                if (!selectable.Contains(s))
-                    s.Deselect();
+                group.Deselect();
             }
-            foreach (var s in selectable)
+            foreach (var newSelect in selectableGroups)
             {
-                if (!selection.Contains(s))
-                    s.Select();
+                newSelect.Select();
             }
-            selection = selectable;
+            selection = selectableGroups.ToList();
         }
+
+        public void TryMergeSelection()
+        {
+            Squad.Create();
+            var result = Squad.Create();
+            foreach (var group in selection)
+            {
+                group.MergeInto(result);
+            }
+
+            selection = new List<Squad>();
+            selection.Add(result);
+            result.Select();
+        }
+
 
         public void TryHighlight(IHighlightable unit)
         {
@@ -75,15 +91,10 @@ namespace RTS
 
         public void TryTarget(ITargetable targetable, Vector3 point)
         {
-            List<ITargetReceiver> targetReceivers = new List<ITargetReceiver>();
-            foreach (var item in selection)
+            foreach (var squad in selection)
             {
-                var convert = item as ITargetReceiver;
-                if (convert != null)
-                    targetReceivers.Add(convert);
+                squad.setTarget(new TargetInformation(targetable as IHittable, point));
             }
-            Debug.LogFormat("Targeting {0}", targetable);
-            targetReceivers.ForEach(x => x.SetTarget(targetable, point));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace RTS.World
         public class Settings
         {
             public int MaxHealth = 10;
+            public int DeathMoraleLoss = 1;
         }
 
 
@@ -33,7 +35,7 @@ namespace RTS.World
         public float MaxHealth { get { return settings.MaxHealth; } }
         public float Health { get { return health; } }
 
-
+        public bool Destroyed { get; private set; }
 
         void Awake()
         {
@@ -41,16 +43,13 @@ namespace RTS.World
         }
         public void OnDestroy()
         {
+            Destroyed = true;
+            if (OnDestroyed != null)
+                OnDestroyed();
         }
 
 
-
-        public void TargetBy(ITargetReceiver targetReceiver)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Hit(int damage)
+        public void OnHit(int damage)
         {
             this.health -= damage;
             this.OnHealthChanged(this.health);
@@ -63,6 +62,7 @@ namespace RTS.World
             if (OnDestroyed != null)
                 OnDestroyed();
             GameObject.Destroy(gameObject);
+            team.Morale -= settings.DeathMoraleLoss;
         }
 
     }
