@@ -8,7 +8,7 @@ using RTS.World.Units;
 namespace RTS.World
 {
     [RequireComponent(typeof(NavMeshAgent))]
-	public class UnitExtendHOOOOOOOO : MonoBehaviour, ISelectable, IHighlightable, IHittable, ITargetReceiver, IInteractive
+	public class UnitExtendHOOOOOOOO : MonoBehaviour, IHighlightable, IHittable, IInteractive, IDestructionNotifier
     {
         [System.Serializable]
         public class Settings
@@ -46,6 +46,7 @@ namespace RTS.World
         public bool CanTarget { get { return true; } }
         public bool Targetable { get { return true; } }
         public bool Hittable { get { return true; } }
+		public bool Destroyed { get; private set; }
         public GameObject Owner { get { return gameObject; } }
         public Vector3 position { get { return transform.position; } }
         public bool IsInRange
@@ -103,12 +104,14 @@ namespace RTS.World
 
 			oldPos = curPos;
         }
-        public void OnDestroy()
-        {
-            if (OnDestroyed != null)
-                OnDestroyed();
-        }
 
+		public void OnHit(int damage)
+		{
+			settings.health -= damage;
+			if (settings.health <= 0) {
+				OnDestroyed ();
+			}
+		}
 
 
         public void Deselect()
@@ -131,11 +134,6 @@ namespace RTS.World
             //meshRenderer.material = settings.idleMaterial; 
         }
 
-        public void TargetBy(ITargetReceiver targetReceiver)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public void SetTarget(ITargetable target, Vector3 position)
         {
             if (target != null)
@@ -156,15 +154,9 @@ namespace RTS.World
         public void HitCurrentTarget()
         {
             if(hitTarget!= null)
-                hitTarget.Hit(settings.damage);
+                hitTarget.OnHit(settings.damage);
         }
-
-        public void Hit(int damage)
-        {
-            throw new System.NotImplementedException();
-        }
-
-
+			
 
         void clearHitTarget()
         {
@@ -178,5 +170,14 @@ namespace RTS.World
                 target.OnDestroyed += clearHitTarget;
             hitTarget = target;
         }
+
+		void OnDestroy()
+		{
+			Destroyed = true;
+			if (OnDestroyed != null)
+				OnDestroyed();
+		}
+
+
     }
 }
