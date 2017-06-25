@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4936382880627108}
   - component: {fileID: 218113723098737208}
   - component: {fileID: 154891478982428946}
-  - component: {fileID: 114635176869548292}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -42,27 +41,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114635176869548292
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1838300632308558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39b34a9a8da30ee4d8fc58f6a870572d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  count: 10000
-  minWorldY: 0
-  maxWorldY: 5200
-  minSlope: 0
-  maxSlope: 40
-  minWidthScale: 0.9
-  maxWidthScale: 2
-  minHeightScale: 0.8
-  maxHeightScale: 3.5
-  maxTime: 500000
 --- !u!154 &154891478982428946
 TerrainCollider:
   m_ObjectHideFlags: 1
