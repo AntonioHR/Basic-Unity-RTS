@@ -53,7 +53,6 @@ namespace RTS.World.UnitBehavior
         public bool IsInRange(Vector3 targetPos)
         {
             var distance = Mathf.Abs(Vector3.Distance(targetPos, unit.transform.position));
-            Debug.Log(distance);
             var maxDistance = unit.Range +
                 (state == State.Attacking ? +settings.stayRange : settings.startRange);
             return distance < maxDistance;
@@ -61,7 +60,7 @@ namespace RTS.World.UnitBehavior
         void ExecuteAttack()
         {
             target.OnHit((int)unit.AttackDamage);
-            this.state = State.Free;
+            StopAttacking();
         }
     }
 }

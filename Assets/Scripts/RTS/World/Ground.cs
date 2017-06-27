@@ -10,11 +10,6 @@ namespace RTS.World
         public bool Targetable { get { return true; } }
         public Vector3 position { get { return transform.position; } }
         public event System.Action OnDestroyed;
-        public bool Destroyed
-        {
-            get;
-            private set;
-        }
 
 
 
@@ -30,7 +25,6 @@ namespace RTS.World
         }
         void OnDestroy()
         {
-            Destroyed = true;
             if (OnDestroyed != null)
                 OnDestroyed();
         }

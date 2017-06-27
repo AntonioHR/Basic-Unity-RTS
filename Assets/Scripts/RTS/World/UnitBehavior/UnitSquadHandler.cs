@@ -19,7 +19,6 @@ namespace RTS.World.UnitBehavior
             }
         }
         public override Unit Unit { get { return unit; } }
-        public override bool Destroyed { get { return Unit.Destroyed; } }
 
         public event Action OnSelected;
         public event Action OnDeselected;

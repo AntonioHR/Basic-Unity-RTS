@@ -60,7 +60,7 @@ namespace RTS.World
         UnitSquadHandler squadHandler;
         UnitAttackHandler attackHandler;
 
-        public ActionInfo CurrentAction { get; set; }
+        public UnitAction CurrentAction { get; set; }
 
 
 
@@ -72,7 +72,6 @@ namespace RTS.World
         public float Health { get { return health; } }
         public float AttackDamage { get { return settings.damage; } }
         public float Range { get { return settings.range; } }
-        public bool Destroyed { get; private set; }
 
 
         public GameObject Owner { get { return gameObject; } }
@@ -103,24 +102,31 @@ namespace RTS.World
         {
             if (CurrentAction == null)
                 return;
-            if (CurrentAction.Target != null && CurrentAction.Target.Destroyed)
+            if (!CurrentAction.IsValid)
             {
+                if (CurrentAction.Mode != ActionMode.Attack && attackHandler.IsAttacking)
+                    attackHandler.StopAttacking();
                 CurrentAction = null;
                 return;
             }
             switch (CurrentAction.Mode)
             {
                 case ActionMode.Attack:
-                    Debug.Log(CurrentAction.position);
                     var inRange = IsInRange;
-                    navMeshAgent.SetDestination(CurrentAction.position);
+                    navMeshAgent.SetDestination(CurrentAction.position ?? default(Vector3));
                     if (!inRange && attackHandler.IsAttacking)
                         attackHandler.StopAttacking();
                     else if (inRange && !attackHandler.IsAttacking)
                         attackHandler.StartAttacking(CurrentAction.Target);
                     break;
                 case ActionMode.Move:
-                    navMeshAgent.SetDestination(CurrentAction.position);
+                    if (attackHandler.IsAttacking)
+                        attackHandler.StopAttacking();
+                    navMeshAgent.SetDestination(CurrentAction.position ?? default(Vector3));
+                    break;
+                case ActionMode.Idle:
+                    if (attackHandler.IsAttacking)
+                        attackHandler.StopAttacking();
                     break;
                 default:
                     break;
@@ -128,7 +134,6 @@ namespace RTS.World
         }
         void OnDestroy()
         {
-            Destroyed = true;
             if (OnDestroyed != null)
                 OnDestroyed();
         }

@@ -139,7 +139,6 @@ namespace RTS.World.Squads
 
         public abstract GameObject Owner { get; }
         public abstract Unit Unit { get; }
-        public abstract bool Destroyed { get; }
 
 
         public event Action OnDestroyed;
@@ -160,10 +159,20 @@ namespace RTS.World.Squads
     {
         public IHittable Target { get; private set; }
         public Vector3 Position { get; private set; }
+        public bool IsValid { get; private set; }
         public TargetInformation(IHittable target, Vector3 position)
         {
             this.Target = target;
             this.Position = position;
+            IsValid = true;
+            if(Target != null)
+                Target.OnDestroyed += Target_OnDestroyed;
+        }
+
+        void Target_OnDestroyed()
+        {
+            Target = null;
+            IsValid = false;
         }
     }
 }

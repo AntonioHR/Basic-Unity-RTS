@@ -31,8 +31,12 @@ namespace RTS.AI
         //Aqui vc coloca sua lógica
         public override void Step(Squad squad)
         {
-            if (squad.TargetInfo == null)
+            if (squad.TargetInfo == null || !squad.TargetInfo.IsValid)
             {
+                foreach (var squaddie in squad.Units)
+                {
+                    squaddie.CurrentAction = UnitAction.IdleAction();
+                }
                 return;
             }
 
@@ -40,13 +44,13 @@ namespace RTS.AI
             {
                 foreach (var squaddie in squad.Units)
                 {
-                    squaddie.CurrentAction = ActionInfo.MoveAction(squad.TargetInfo.Position);
+                    squaddie.CurrentAction = UnitAction.MoveAction(squad.TargetInfo.Position);
                 }
             } else
             { 
                 foreach (var squaddie in squad.Units)
                 {
-                    squaddie.CurrentAction = ActionInfo.AttackAction(squad.TargetInfo.Target);
+                    squaddie.CurrentAction = UnitAction.AttackAction(squad.TargetInfo.Target);
                 }
             }
         }

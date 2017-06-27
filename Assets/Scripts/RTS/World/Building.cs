@@ -35,15 +35,12 @@ namespace RTS.World
         public float MaxHealth { get { return settings.MaxHealth; } }
         public float Health { get { return health; } }
 
-        public bool Destroyed { get; private set; }
-
         void Awake()
         {
             health = settings.MaxHealth;
         }
         public void OnDestroy()
         {
-            Destroyed = true;
             if (OnDestroyed != null)
                 OnDestroyed();
         }

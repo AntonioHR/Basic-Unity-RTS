@@ -45,7 +45,6 @@ namespace RTS
     public interface IDestructionNotifier
     {
         event Action OnDestroyed;
-        bool Destroyed { get; }
     }
 
     public interface IHealth
