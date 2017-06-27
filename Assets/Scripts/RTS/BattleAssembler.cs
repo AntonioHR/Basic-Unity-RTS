@@ -34,6 +34,7 @@ namespace RTS
             var playerCommandsObj = new GameObject("PlayerCommandsController");
             playerCommandsObj.transform.parent = this.transform;
             playerCommands = playerCommandsObj.AddComponent<PlayerCommandsController>();
+            playerCommands.Team = playerTeam;
 
             battleManager = new Battle(playerTeam, opposingTeam);
 

@@ -10,17 +10,21 @@ namespace RTS.World.Squads
     {
         List<SquadElement> units;
 
+        public Team Team { get; private set; }
+
         public TargetInformation TargetInfo { get; private set; }
 
         public IEnumerable<Unit> Units { get { return units.AsEnumerable().Select(x => x.Unit); } }
 
-        private Squad()
+        private Squad(Team Team)
         {
+            this.Team = Team;
             units = new List<SquadElement>();
         }
 
         public void AddUnit(SquadElement unit)
         {
+            Debug.Assert(unit.Team == Team);
             units.Add(unit);
             unit.OnUnitDestroyed += RemoveUnit;
             unit.Squad = this;
@@ -36,6 +40,7 @@ namespace RTS.World.Squads
 
         public Squad MergeInto(Squad group)
         {
+            Debug.Assert(group.Team == Team);
             for (int i = units.Count-1; i >= 0; i--)
             {
                 var unit = units[i];
@@ -66,9 +71,9 @@ namespace RTS.World.Squads
             this.TargetInfo = info;
         }
 
-        public static Squad Create()
+        public static Squad Create(Team team)
         {
-            return Manager.Instance.CreateSquad();
+            return Manager.Instance.CreateSquad(team);
         }
         public static IEnumerable<Squad> AllSquads
         {
@@ -105,9 +110,9 @@ namespace RTS.World.Squads
                 get { return squads.AsEnumerable(); }
             }
 
-            internal Squad CreateSquad()
+            internal Squad CreateSquad(Team team)
             {
-                var squad = new Squad();
+                var squad = new Squad(team);
                 squads.Add(squad);
                 return squad;
             }
@@ -115,6 +120,11 @@ namespace RTS.World.Squads
             {
                 squads.Remove(squad);
             }
+        }
+
+        internal bool CanTarget(TargetInformation targetInformation)
+        {
+            return targetInformation.IsValid && (targetInformation.Target == null || targetInformation.Target.Team != Team);
         }
     }
 
@@ -139,14 +149,14 @@ namespace RTS.World.Squads
 
         public abstract GameObject Owner { get; }
         public abstract Unit Unit { get; }
+        public abstract Team Team { get; }
 
 
         public event Action OnDestroyed;
         public event Action<SquadElement> OnUnitDestroyed;
 
-        public SquadElement(Squad group)
+        public SquadElement()
         {
-            group.AddUnit(this);
         }
             
 
