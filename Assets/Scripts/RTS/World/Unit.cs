@@ -133,17 +133,26 @@ namespace RTS.World
             {
                 //Nota de Rodrigo pra ele mesmo. Refatorar todo esse trecho!
                 case ActionMode.Attack:
-                    Debug.Log(CurrentAction.position);
                     var inRange = IsInRange;
                     navMeshAgent.SetDestination(CurrentAction.position);
                     if (!inRange && attackHandler.IsAttacking)
+                    {
                         attackHandler.StopAttacking();
+                    }
                     else if (inRange && !attackHandler.IsAttacking)
-                        attackHandler.StartAttacking(CurrentAction.Target);
+                    {
+                        if (CurrentAction.Target != null)
+                        {
+                            attackHandler.StartAttacking(CurrentAction.Target);
+                        }
+                    }
                     break;
                 case ActionMode.Move:
                     navMeshAgent.SetDestination(CurrentAction.position);
                     attackHandler.StopAttacking();
+                    break;
+                case ActionMode.Empty:
+                    attackHandler.StopAttacking(); // pra evitar que unidades tentem acessar gente morta
                     break;
                 default:
                     break;

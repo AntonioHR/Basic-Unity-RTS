@@ -8,7 +8,7 @@ namespace RTS.World.UnitBehavior
 {
     public class UnitAttackHandler
     {
-        enum State { Attacking, Free }
+        enum State { Free, Attacking }
 
         [Serializable]
         public class Settings
@@ -23,7 +23,7 @@ namespace RTS.World.UnitBehavior
         Unit unit;
         UnitAnimationHandler animationHandler;
         IHittable target;
-
+        
 
         public bool IsAttacking { get { return state == State.Attacking; } }
 
@@ -41,6 +41,7 @@ namespace RTS.World.UnitBehavior
             this.state = State.Attacking;
             animationHandler.SetAttacking(true);
             animationHandler.OnHitFrame += ExecuteAttack;
+
         }
         public void StopAttacking()
         {
@@ -53,13 +54,13 @@ namespace RTS.World.UnitBehavior
         public bool IsInRange(Vector3 targetPos)
         {
             var distance = Mathf.Abs(Vector3.Distance(targetPos, unit.transform.position));
-            Debug.Log(distance);
             var maxDistance = unit.Range +
-                (state == State.Attacking ? +settings.stayRange : settings.startRange);
+                (state == State.Attacking ? settings.stayRange : settings.startRange);
             return distance < maxDistance;
         }
         void ExecuteAttack()
         {
+            animationHandler.OnHitFrame -= ExecuteAttack;
             target.OnHit((int)unit.AttackDamage);
             this.state = State.Free;
         }

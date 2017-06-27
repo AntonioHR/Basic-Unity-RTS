@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RTS.World
 {
-    public enum ActionMode { Attack, Move}
+    public enum ActionMode { Empty, Attack, Move}
     public class ActionInfo
     {
         public ActionMode Mode { get; private set; }
@@ -33,6 +33,11 @@ namespace RTS.World
         public static ActionInfo MoveAction(Vector3 position)
         {
             return new ActionInfo(ActionMode.Move, null, position);
+        }
+
+        public static ActionInfo EmptyAction()
+        {
+            return new ActionInfo(ActionMode.Empty, null, new Vector3());
         }
     }
 }

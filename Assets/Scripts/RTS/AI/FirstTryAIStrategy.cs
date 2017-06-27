@@ -13,7 +13,6 @@ namespace RTS.AI
 
     class FirstTryAIStrategy : AIStrategy
     {
-        //Se quiser adicionar estado, tem que fazer algo assim
         class State
         {
             public bool animosity; //if false, it's defensive. If true, it's aggressive
@@ -26,7 +25,6 @@ namespace RTS.AI
 
         public override void Start()
         {
-            Debug.Log("batata");
             states = new Dictionary<Squad, State>();
         }
 
@@ -52,16 +50,9 @@ namespace RTS.AI
             }
             return finalEnemiesList;
         }
-
-        //Aqui vc coloca sua lógica
+        
         public override void Step(Squad squad)
-        {
-
-            foreach (var enemy in this.FindSquadEnemies(squad))
-            {
-                Debug.Log(enemy.ToString());
-            }          
-            
+        {            
             bool animosity;
             try
             {
@@ -90,6 +81,13 @@ namespace RTS.AI
                         foreach (var squaddie in squad.Units)
                         {
                             squaddie.CurrentAction = ActionInfo.MoveAction(squad.TargetInfo.Position);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var squaddie in squad.Units)
+                        {
+                            squaddie.CurrentAction = ActionInfo.EmptyAction();
                         }
                     }
                 }
