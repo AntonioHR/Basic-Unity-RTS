@@ -24160,7 +24160,7 @@ AnimationClip:
   m_GenerateMotionCurves: 0
   m_Events:
   - time: 0.36666667
-    functionName: HitFrame()
+    functionName: HitFrame
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

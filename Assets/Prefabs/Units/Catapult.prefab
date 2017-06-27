@@ -151,13 +151,14 @@ GameObject:
   - component: {fileID: 64806161884336146}
   - component: {fileID: 23084650367077018}
   - component: {fileID: 114485342446413768}
+  - component: {fileID: 114772889697850702}
   m_Layer: 8
   m_Name: SelectionIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1548062504117332
 GameObject:
   m_ObjectHideFlags: 1
@@ -198,8 +199,8 @@ GameObject:
   - component: {fileID: 4337094757130600}
   - component: {fileID: 95347924449685554}
   - component: {fileID: 136157529760940136}
-  - component: {fileID: 114129886859407776}
   - component: {fileID: 114310284945953128}
+  - component: {fileID: 114190282534731354}
   m_Layer: 8
   m_Name: WK_catapult
   m_TagString: Untagged
@@ -328,6 +329,7 @@ GameObject:
   - component: {fileID: 4738617253419370}
   - component: {fileID: 114463420538407964}
   - component: {fileID: 195981884910755706}
+  - component: {fileID: 114604796826550060}
   m_Layer: 8
   m_Name: Catapult
   m_TagString: Untagged
@@ -509,7 +511,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1898761668756678}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.4, y: -3.415625e-17, z: -0.691}
+  m_LocalPosition: {x: 0.8871311, y: -5.354441e-17, z: 2.4114256}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4337094757130600}
@@ -759,17 +761,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114129886859407776
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1576793205228480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9147c5ade76b12d4cb03f3c35a00f446, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114162427265076014
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -818,6 +809,17 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114190282534731354
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1576793205228480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a748fc1376c7848b37a215db87faad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114310284945953128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -838,19 +840,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1898761668756678}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4370184b129e47740a40d2cd3d1aaf85, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a018576fcd2fb74fa1ba17978bda174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curPos: {x: 0, y: 0, z: 0}
+  oldPos: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  speed: 0
   settings:
-    range: 7
-    attackRangeTolerance: 1
+    attackSettings:
+      startRange: 1
+      stayRange: 1.5
+    range: 5
     damage: 5
-    idleMaterial: {fileID: 0}
-    selectedMaterial: {fileID: 0}
-    health: 100
+    MaxHealth: 100
   selectionIndicator: {fileID: 4545443251795062}
-  animationHandler: {fileID: 114129886859407776}
-  unitTransform: {fileID: 4738617253419370}
+  animationHandler: {fileID: 114190282534731354}
+  team: {fileID: 0}
 --- !u!114 &114483689404212188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -891,6 +897,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fixatePosition: 0
   fixateRotation: 1
+--- !u!114 &114604796826550060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1898761668756678}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d79a64b3f71be5e4189993c171facded, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idle: {fileID: 0}
+  highlight: {fileID: 0}
+  meshRenderer: {fileID: 0}
 --- !u!114 &114638759290744910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -904,6 +924,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fixatePosition: 0
   fixateRotation: 1
+--- !u!114 &114772889697850702
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1469696338996206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d1f1790699e1840a4bd099f805c8c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 114463420538407964}
 --- !u!114 &114785258361088164
 MonoBehaviour:
   m_ObjectHideFlags: 1
