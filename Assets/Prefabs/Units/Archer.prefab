@@ -36,6 +36,7 @@ GameObject:
   - component: {fileID: 4402748540368356}
   - component: {fileID: 114020089485082942}
   - component: {fileID: 195624185647471506}
+  - component: {fileID: 114963512163241676}
   m_Layer: 8
   m_Name: Archer
   m_TagString: Untagged
@@ -223,13 +224,14 @@ GameObject:
   - component: {fileID: 64442060675325652}
   - component: {fileID: 23684281859064734}
   - component: {fileID: 114634001833150732}
+  - component: {fileID: 114394249443002850}
   m_Layer: 8
   m_Name: SelectionIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1352893964903898
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,7 +706,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1070686342742772}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.7548995, y: -3.415625e-17, z: 1.5382607}
+  m_LocalPosition: {x: 2.2874608, y: 5.9496316e-17, z: 7.320524}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4775972964409534}
@@ -1055,7 +1057,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 4909bd38dc5fb7348985b8f008c7fa0b, type: 3}
   m_Controller: {fileID: 22100000, guid: 30ab43150830a7b4d9be0dfc204fe208, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -1070,7 +1072,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1352893964903898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9147c5ade76b12d4cb03f3c35a00f446, type: 3}
+  m_Script: {fileID: 11500000, guid: e3a748fc1376c7848b37a215db87faad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114020089485082942
@@ -1081,19 +1083,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1070686342742772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4370184b129e47740a40d2cd3d1aaf85, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a018576fcd2fb74fa1ba17978bda174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curPos: {x: 0, y: 0, z: 0}
+  oldPos: {x: 0, y: 0, z: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  speed: 0
   settings:
+    attackSettings:
+      startRange: 1
+      stayRange: 1.5
     range: 5
-    attackRangeTolerance: 1
     damage: 1
-    idleMaterial: {fileID: 0}
-    selectedMaterial: {fileID: 0}
-    health: 100
+    MaxHealth: 100
   selectionIndicator: {fileID: 4422527757077368}
   animationHandler: {fileID: 114008847637117056}
-  unitTransform: {fileID: 4402748540368356}
+  team: {fileID: 0}
 --- !u!114 &114028629490152318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1142,6 +1148,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114394249443002850
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1328077587380934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d1f1790699e1840a4bd099f805c8c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 114020089485082942}
 --- !u!114 &114574600561360320
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1271,6 +1289,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultOwner: {fileID: 0}
+--- !u!114 &114963512163241676
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1070686342742772}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d79a64b3f71be5e4189993c171facded, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idle: {fileID: 0}
+  highlight: {fileID: 0}
+  meshRenderer: {fileID: 0}
 --- !u!114 &114992103742932576
 MonoBehaviour:
   m_ObjectHideFlags: 1
