@@ -9,5 +9,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40a04621654ca624ba861cde102258ad, type: 3}
-  m_Name: Dummy
+  m_Name: DummyAI
   m_EditorClassIdentifier: 

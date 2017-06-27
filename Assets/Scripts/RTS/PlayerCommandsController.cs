@@ -13,6 +13,8 @@ namespace RTS
         List<Squad> selection;
         List<IHighlightable> highlight;
 
+        public Team Team { get; set; }
+
         public int HighlightCount { get { return highlight.Count; } }
 
 
@@ -36,8 +38,8 @@ namespace RTS
         }
         public void TrySelect(List<ISelectionUnit> units)
         {
-            var selectable = units.FindAll(x=>x.Selectable);
-            var selectableGroups = units.Select(x => x.Squad).Distinct();
+            var selectable = units.FindAll(x=>x.Selectable && x.Team == Team);
+            var selectableGroups = selectable.Select(x => x.Squad).Distinct();
 
             var unselectedGroups = selection.Where(x => !selectableGroups.Contains(x));
             foreach (var group in unselectedGroups)
@@ -53,8 +55,7 @@ namespace RTS
 
         public void TryMergeSelection()
         {
-            Squad.Create();
-            var result = Squad.Create();
+            var result = Squad.Create(Team);
             foreach (var group in selection)
             {
                 group.MergeInto(result);
@@ -93,7 +94,9 @@ namespace RTS
         {
             foreach (var squad in selection)
             {
-                squad.setTarget(new TargetInformation(targetable as IHittable, point));
+                var targetInformation = new TargetInformation(targetable as IHittable, point);
+                if(squad.CanTarget(targetInformation))
+                    squad.setTarget(targetInformation);
             }
         }
     }

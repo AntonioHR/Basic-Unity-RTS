@@ -28,7 +28,8 @@ namespace RTS.World
         public UnitAnimationHandler animationHandler;
 
         [Space()]
-        public Team team;
+        [SerializeField]
+        private Team team;
 
         public event System.Action OnDestroyed;
         public event System.Action<float> OnHealthChanged;
@@ -56,7 +57,7 @@ namespace RTS.World
         }
 
         NavMeshAgent navMeshAgent;
-        int health;
+        float health;
         UnitSquadHandler squadHandler;
         UnitAttackHandler attackHandler;
 
@@ -77,6 +78,7 @@ namespace RTS.World
         public GameObject Owner { get { return gameObject; } }
         public Vector3 position { get { return transform.position; } }
         public Squad Squad { get { return squadHandler.Squad; } }
+        public Team Team { get { return team; } }
 
         public bool IsInRange { get { return CurrentAction != null && 
                     CurrentAction.Target != null && attackHandler.IsInRange(CurrentAction.Target.position); } }
@@ -97,6 +99,7 @@ namespace RTS.World
         }
         void Start()
         {
+            health = MaxHealth;
         }
         void Update()
         {
@@ -140,13 +143,17 @@ namespace RTS.World
         
         public void OnHit(int damage)
         {
+            var delta = -damage;
             this.health -= damage;
+            if (OnHealthChanged != null)
+                OnHealthChanged(health);
             if (this.health <= 0)
-                GameObject.Destroy(this);
+                Die();
         }
 
-
-
-        
+        void Die()
+        {
+            GameObject.Destroy(gameObject);
+        }
     }
 }

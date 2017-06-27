@@ -11,6 +11,7 @@ namespace RTS.World.UnitBehavior
     {
         private Unit unit;
 
+
         public override GameObject Owner
         {
             get
@@ -19,13 +20,15 @@ namespace RTS.World.UnitBehavior
             }
         }
         public override Unit Unit { get { return unit; } }
+        public override Team Team{ get { return unit.Team; } }
 
         public event Action OnSelected;
         public event Action OnDeselected;
 
-        public UnitSquadHandler(Unit unit) : base(Squad.Create())
+        public UnitSquadHandler(Unit unit)
         {
             this.unit = unit;
+            Squad.Create(unit.Team).AddUnit(this);
         }
 
 
