@@ -20,7 +20,8 @@ namespace RTS.World
             public float MaxHealth = 100;
         }
 
-
+        public enum UnitType { Infantry, Artillary, Cavalry, Siege};
+        public UnitType myType;
 
 		//animação
 		public Vector3 curPos;

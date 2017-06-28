@@ -24,13 +24,13 @@ namespace RTS.AI
         public int viewRadius = 10;
         private Dictionary<Squad, State> states;
         private Dictionary<Squad, Dictionary<IHittable, int>> numberOfSquaddiesOnEnemy; // given a squad and an enemy, this should return how many squaddies are already engaging that enemy
-        private Dictionary<Squad, Dictionary<ISelectionUnit, IHittable>> LockedEnemies; // com quem cada unidade de cada esquadrão está lutando
+        private Dictionary<Squad, Dictionary<Unit, IHittable>> LockedEnemies; // com quem cada unidade de cada esquadrão está lutando
             
         public override void Start()
         {
             states = new Dictionary<Squad, State>();
             numberOfSquaddiesOnEnemy = new Dictionary<Squad, Dictionary<IHittable, int>>();
-            LockedEnemies = new Dictionary<Squad, Dictionary<ISelectionUnit, IHittable>>();
+            LockedEnemies = new Dictionary<Squad, Dictionary<Unit, IHittable>>();
         }
 
         private HashSet<IHittable> FindSquadEnemies(Squad squad)
@@ -54,6 +54,33 @@ namespace RTS.AI
                 }
             }
             return finalEnemiesList;
+        }
+
+        private IHittable defineEnemy(Unit.UnitType squaddieType, HashSet<IHittable> enemiesList, Dictionary<IHittable, int>numberOfSiblingsOnEnemy, Unit squaddie)
+        {
+            IHittable currentTarget = null;
+            switch (squaddieType)
+            {
+                case Unit.UnitType.Infantry:
+                    float smallestDistance = float.PositiveInfinity;
+                    foreach (var enemy in enemiesList)
+                    {
+                        if (numberOfSiblingsOnEnemy[enemy] < 3) //só atacar se tiver poucos "irmãos" atacando
+                        {
+                            float currentDistance = Vector3.Distance(enemy.position, squaddie.position);
+                            if (currentDistance < smallestDistance)
+                            {
+                                smallestDistance = currentDistance;
+                                currentTarget = enemy;
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    currentTarget = null;
+                    break;
+            }
+            return currentTarget;
         }
 
         public override void Step(Squad squad)
@@ -99,14 +126,14 @@ namespace RTS.AI
                 else
                 {
                     
-                    Dictionary<ISelectionUnit, IHittable> localLockedEnemies;
+                    Dictionary<Unit, IHittable> localLockedEnemies;
                     try
                     {
                         localLockedEnemies = LockedEnemies[squad];
                     }
                     catch
                     {
-                        localLockedEnemies = new Dictionary<ISelectionUnit, IHittable>();
+                        localLockedEnemies = new Dictionary<Unit, IHittable>();
                         LockedEnemies.Add(squad, localLockedEnemies);
                     }
                     foreach (var squaddie in squad.Units)
@@ -140,30 +167,11 @@ namespace RTS.AI
                         }
                     }
 
-                    foreach (var enemy in enemiesList)
-                    {
-                        Debug.Log(enemy);
-                        Debug.Log(numberOfSiblingsOnEnemy[enemy]);
-                    }
-
                     foreach (var squaddie in squad.Units)
                     {
                         if (localLockedEnemies[squaddie]==null) //then we have to search for an enemy
                         {
-                            float smallestDistance = float.PositiveInfinity;
-                            IHittable currentTarget = null;
-                            foreach (var enemy in enemiesList)
-                            {
-                                if (numberOfSiblingsOnEnemy[enemy] < 3) //só atacar se tiver poucos "irmãos" atacando
-                                {
-                                    float currentDistance = Vector3.Distance(enemy.position, squaddie.position);
-                                    if (currentDistance < smallestDistance)
-                                    {
-                                        smallestDistance = currentDistance;
-                                        currentTarget = enemy;
-                                    }
-                                }
-                            }
+                            IHittable currentTarget = defineEnemy(squaddie.myType, enemiesList, numberOfSiblingsOnEnemy, squaddie);
                             if (currentTarget != null)
                             {
                                 squaddie.CurrentAction = ActionInfo.AttackAction(currentTarget);
@@ -172,8 +180,11 @@ namespace RTS.AI
                             else
                             {
                                 //seguir os outros caras e ficar pronto pra iniciar combate.
-                                //o comportamento a seugir é temporário!
-                                squaddie.CurrentAction = ActionInfo.EmptyAction();
+                                //o comportamento a seguir é temporário!
+                                if (squad.TargetInfo != null && squad.TargetInfo.Position != null)
+                                {
+                                    squaddie.CurrentAction = ActionInfo.MoveAction(squad.TargetInfo.Position);
+                                }
                             }
                             localLockedEnemies[squaddie] = currentTarget;
                         }
