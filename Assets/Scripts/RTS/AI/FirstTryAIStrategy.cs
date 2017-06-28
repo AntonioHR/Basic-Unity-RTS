@@ -110,28 +110,6 @@ namespace RTS.AI
                     }
                 }
             }
-
-            /*
-             if (squad.TargetInfo == null)
-            {
-                return;
-            }
-
-            if (squad.TargetInfo.Target == null)
-            {
-                foreach (var squaddie in squad.Units)
-                {
-                    squaddie.CurrentAction = ActionInfo.MoveAction(squad.TargetInfo.Position);
-                }
-            }
-            else
-            {
-                foreach (var squaddie in squad.Units)
-                {
-                    squaddie.CurrentAction = ActionInfo.AttackAction(squad.TargetInfo.Target);
-                }
-            }
-            */
         }
     }
 }

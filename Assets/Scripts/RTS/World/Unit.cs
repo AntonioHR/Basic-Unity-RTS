@@ -141,7 +141,7 @@ namespace RTS.World
                     }
                     else if (inRange && !attackHandler.IsAttacking)
                     {
-                        if (CurrentAction.Target != null)
+                        if (CurrentAction.Target.Destroyed == false)
                         {
                             attackHandler.StartAttacking(CurrentAction.Target);
                         }
@@ -152,6 +152,7 @@ namespace RTS.World
                     attackHandler.StopAttacking();
                     break;
                 case ActionMode.Empty:
+                    navMeshAgent.SetDestination(position);//stop walking by "reaching" ourselves
                     attackHandler.StopAttacking(); // pra evitar que unidades tentem acessar gente morta
                     break;
                 default:

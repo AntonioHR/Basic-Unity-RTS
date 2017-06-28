@@ -25,19 +25,19 @@ public class MoveCam : MonoBehaviour {
 			trans.Rotate(new Vector3(0, h, 0));
 		}
 
-		if (Input.GetKey(KeyCode.UpArrow) || (Input.mousePosition.y > screenHeight - boundary)){
+		if (Input.GetKey(KeyCode.UpArrow) /*|| (Input.mousePosition.y > screenHeight - boundary)*/){
 			trans.Translate (new Vector3 (0, 0, 1) * Time.deltaTime * translationSpeed);
 		}
 
-		if (Input.GetKey(KeyCode.DownArrow) || (Input.mousePosition.y < 0 + boundary)){
+		if (Input.GetKey(KeyCode.DownArrow) /*|| (Input.mousePosition.y < 0 + boundary)*/){
 			trans.Translate (new Vector3 (0, 0, -1) * Time.deltaTime * translationSpeed);
 		}
 
-		if (Input.GetKey(KeyCode.LeftArrow) || (Input.mousePosition.x < 0 + boundary)){
+		if (Input.GetKey(KeyCode.LeftArrow) /*|| (Input.mousePosition.x < 0 + boundary)*/){
 			trans.Translate (new Vector3 (-1, 0, 0) * Time.deltaTime * translationSpeed);
 		}
 
-		if (Input.GetKey(KeyCode.RightArrow) || (Input.mousePosition.x > screeWidth - boundary)){
+		if (Input.GetKey(KeyCode.RightArrow) /*|| (Input.mousePosition.x > screeWidth - boundary)*/){
 			trans.Translate (new Vector3 (1, 0, 0) * Time.deltaTime * translationSpeed);
 		}
 
