@@ -24,13 +24,15 @@ namespace RTS.World
         [SerializeField]
         private Team team;
 
+        [SerializeField]
+        private bool targetable;
+
         public event System.Action<float> OnHealthChanged;
 
 
 
         public event System.Action OnDestroyed;
-        public bool Targetable  {  get { return true; } }
-        public bool Hittable { get { return true; } }
+        public bool Targetable { get { return targetable; } }
         public GameObject Owner { get { return gameObject; } }
         public Team Team { get { return team; } }
         public Vector3 position { get { return transform.position; } }

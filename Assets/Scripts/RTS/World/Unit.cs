@@ -9,7 +9,7 @@ using System;
 namespace RTS.World
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class Unit : MonoBehaviour, IHittable, IInteractive, IHealth, ISelectionUnit
+    public class Unit : MonoBehaviour, IHittable, IInteractive, IHealth, ISelectionUnit, IHighlightable
     {
         [System.Serializable]
         public class Settings
@@ -24,15 +24,17 @@ namespace RTS.World
 
         public Settings settings;
 
-        public Transform selectionIndicator;
+        //public Transform selectionIndicator;
         public UnitAnimationHandler animationHandler;
 
         [Space()]
         [SerializeField]
-        private Team team;
+        private Team startTeam;
 
         public event System.Action OnDestroyed;
         public event System.Action<float> OnHealthChanged;
+        public event System.Action OnHighlightOn;
+        public event System.Action OnHighlightOff;
         public event Action OnSelected
         {
             add
@@ -60,6 +62,7 @@ namespace RTS.World
         float health;
         UnitSquadHandler squadHandler;
         UnitAttackHandler attackHandler;
+        Team team;
 
         public UnitAction CurrentAction { get; set; }
 
@@ -67,7 +70,8 @@ namespace RTS.World
 
         public bool CanTarget { get { return true; } }
         public bool Targetable { get { return true; } }
-        public bool Hittable { get { return true; } }
+        public bool Highlightable { get { return true; } }
+        public bool Initialized { get; private set; }
 
         public float MaxHealth { get { return settings.MaxHealth; } }
         public float Health { get { return health; } }
@@ -79,6 +83,7 @@ namespace RTS.World
         public Vector3 position { get { return transform.position; } }
         public Squad Squad { get { return squadHandler.Squad; } }
         public Team Team { get { return team; } }
+        public Team StartTeam { set { Debug.Assert(!Initialized); startTeam = value; } }
 
         public bool IsInRange { get { return CurrentAction != null && 
                     CurrentAction.Target != null && attackHandler.IsInRange(CurrentAction.Target.position); } }
@@ -93,6 +98,8 @@ namespace RTS.World
 
         void Awake()
         {
+            this.team = startTeam;
+            Initialized = true;
             navMeshAgent = GetComponent<NavMeshAgent>();
             squadHandler = new UnitSquadHandler(this);
             attackHandler = new UnitAttackHandler(this, animationHandler, settings.attackSettings);
@@ -141,6 +148,8 @@ namespace RTS.World
                 OnDestroyed();
         }
         
+
+
         public void OnHit(int damage)
         {
             var delta = -damage;
@@ -150,6 +159,18 @@ namespace RTS.World
             if (this.health <= 0)
                 Die();
         }
+
+        public void HighlightOn()
+        {
+            if (OnHighlightOn != null)
+                OnHighlightOn();
+        }
+        public void HighlightOff()
+        {
+            if (OnHighlightOff != null)
+                OnHighlightOff();
+        }
+
 
         void Die()
         {

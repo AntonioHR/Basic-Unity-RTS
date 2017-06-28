@@ -92,6 +92,8 @@ namespace RTS
 
         public void TryTarget(ITargetable targetable, Vector3 point)
         {
+            if (targetable != null && !targetable.Targetable)
+                return;
             foreach (var squad in selection)
             {
                 var targetInformation = new TargetInformation(targetable as IHittable, point);
