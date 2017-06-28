@@ -1086,6 +1086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a018576fcd2fb74fa1ba17978bda174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myType: 1
   curPos: {x: 0, y: 0, z: 0}
   oldPos: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
