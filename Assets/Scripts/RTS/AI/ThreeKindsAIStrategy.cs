@@ -56,12 +56,12 @@ namespace RTS.AI
             return finalEnemiesList;
         }
 
-        private IHittable defineEnemy(Unit.UnitType squaddieType, HashSet<IHittable> enemiesList, Dictionary<IHittable, int>numberOfSiblingsOnEnemy, Unit squaddie)
+        private IHittable defineEnemy(Unit.ClassType squaddieType, HashSet<IHittable> enemiesList, Dictionary<IHittable, int>numberOfSiblingsOnEnemy, Unit squaddie)
         {
             IHittable currentTarget = null;
             switch (squaddieType)
             {
-                case Unit.UnitType.Infantry:
+                case Unit.ClassType.Infantry:
                     float smallestDistance = float.PositiveInfinity;
                     foreach (var enemy in enemiesList)
                     {
@@ -171,7 +171,7 @@ namespace RTS.AI
                     {
                         if (localLockedEnemies[squaddie]==null) //then we have to search for an enemy
                         {
-                            IHittable currentTarget = defineEnemy(squaddie.myType, enemiesList, numberOfSiblingsOnEnemy, squaddie);
+                            IHittable currentTarget = defineEnemy(squaddie.Type, enemiesList, numberOfSiblingsOnEnemy, squaddie);
                             if (currentTarget != null)
                             {
                                 squaddie.CurrentAction = UnitAction.AttackAction(currentTarget);
@@ -183,7 +183,7 @@ namespace RTS.AI
                                 //o comportamento a seguir é temporário!
                                 if (squad.TargetInfo != null && squad.TargetInfo.Position != null)
                                 {
-                                    squaddie.CurrentAction = ActionInfo.MoveAction(squad.TargetInfo.Position);
+                                    squaddie.CurrentAction = UnitAction.MoveAction(squad.TargetInfo.Position);
                                 }
                             }
                             localLockedEnemies[squaddie] = currentTarget;

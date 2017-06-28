@@ -21,11 +21,13 @@ public class UnitMeshHighlight : MonoBehaviour {
 
     void unit_OnHighlightOff()
     {
-        MeshRenderer.material = idle;
+        if(MeshRenderer != null)
+            MeshRenderer.material = idle;
     }
 
     void unit_OnHighlightOn()
     {
-        MeshRenderer.material = highlight;
+        if (MeshRenderer != null)
+            MeshRenderer.material = highlight;
     }
 }

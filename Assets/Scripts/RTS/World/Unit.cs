@@ -11,17 +11,17 @@ namespace RTS.World
     [RequireComponent(typeof(NavMeshAgent))]
     public class Unit : MonoBehaviour, IHittable, IInteractive, IHealth, ISelectionUnit, IHighlightable
     {
+        public enum ClassType { Infantry, Artillary, Cavalry, Siege}
         [System.Serializable]
         public class Settings
         {
             public UnitAttackHandler.Settings attackSettings;
+            public ClassType Type;
             public float range;
             public int damage;
             public float MaxHealth = 100;
         }
 
-        public enum UnitType { Infantry, Artillary, Cavalry, Siege};
-        public UnitType myType;
 
 		//animação
 		public Vector3 curPos;
@@ -84,7 +84,7 @@ namespace RTS.World
         public float Health { get { return health; } }
         public float AttackDamage { get { return settings.damage; } }
         public float Range { get { return settings.range; } }
-
+        public ClassType Type { get { return settings.Type; } }
 
         public GameObject Owner { get { return gameObject; } }
         public Vector3 position { get { return transform.position; } }
