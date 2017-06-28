@@ -1,0 +1,167 @@
+fileFormatVersion: 2
+guid: 2d64484c43f3c9f4c81a663d5cc1ee0d
+timeCreated: 1457171361
+licenseType: Store
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: T0_Crown_00
+    100002: T0_Crown_01
+    100004: T0_Crown_02
+    100006: T0_Crown_03
+    100008: T0_Crown_04
+    100010: T0_Crown_05
+    100012: T0_Crown_06
+    100014: T0_Crown_07
+    100016: T0_Crown_08
+    100018: T0_Crown_09
+    100020: T0_Trunk_00
+    100022: T0_Trunk_01
+    100024: T0_Trunk_02
+    100026: T0_Trunk_03
+    100028: T0_Trunk_04
+    100030: T0_Trunk_05
+    100032: T0_Trunk_06
+    100034: T0_Trunk_07
+    100036: T0_Trunk_08
+    100038: T0_Trunk_09
+    100040: //RootNode
+    400000: T0_Crown_00
+    400002: T0_Crown_01
+    400004: T0_Crown_02
+    400006: T0_Crown_03
+    400008: T0_Crown_04
+    400010: T0_Crown_05
+    400012: T0_Crown_06
+    400014: T0_Crown_07
+    400016: T0_Crown_08
+    400018: T0_Crown_09
+    400020: T0_Trunk_00
+    400022: T0_Trunk_01
+    400024: T0_Trunk_02
+    400026: T0_Trunk_03
+    400028: T0_Trunk_04
+    400030: T0_Trunk_05
+    400032: T0_Trunk_06
+    400034: T0_Trunk_07
+    400036: T0_Trunk_08
+    400038: T0_Trunk_09
+    400040: //RootNode
+    2300000: T0_Crown_00
+    2300002: T0_Crown_01
+    2300004: T0_Crown_02
+    2300006: T0_Crown_03
+    2300008: T0_Crown_04
+    2300010: T0_Crown_05
+    2300012: T0_Crown_06
+    2300014: T0_Crown_07
+    2300016: T0_Crown_08
+    2300018: T0_Crown_09
+    2300020: T0_Trunk_00
+    2300022: T0_Trunk_01
+    2300024: T0_Trunk_02
+    2300026: T0_Trunk_03
+    2300028: T0_Trunk_04
+    2300030: T0_Trunk_05
+    2300032: T0_Trunk_06
+    2300034: T0_Trunk_07
+    2300036: T0_Trunk_08
+    2300038: T0_Trunk_09
+    3300000: T0_Crown_00
+    3300002: T0_Crown_01
+    3300004: T0_Crown_02
+    3300006: T0_Crown_03
+    3300008: T0_Crown_04
+    3300010: T0_Crown_05
+    3300012: T0_Crown_06
+    3300014: T0_Crown_07
+    3300016: T0_Crown_08
+    3300018: T0_Crown_09
+    3300020: T0_Trunk_00
+    3300022: T0_Trunk_01
+    3300024: T0_Trunk_02
+    3300026: T0_Trunk_03
+    3300028: T0_Trunk_04
+    3300030: T0_Trunk_05
+    3300032: T0_Trunk_06
+    3300034: T0_Trunk_07
+    3300036: T0_Trunk_08
+    3300038: T0_Trunk_09
+    4300000: T0_Crown_05
+    4300002: T0_Trunk_05
+    4300004: T0_Crown_04
+    4300006: T0_Trunk_04
+    4300008: T0_Trunk_03
+    4300010: T0_Crown_03
+    4300012: T0_Crown_06
+    4300014: T0_Trunk_06
+    4300016: T0_Trunk_07
+    4300018: T0_Crown_07
+    4300020: T0_Trunk_08
+    4300022: T0_Crown_08
+    4300024: T0_Crown_09
+    4300026: T0_Trunk_09
+    4300028: T0_Crown_02
+    4300030: T0_Trunk_02
+    4300032: T0_Trunk_00
+    4300034: T0_Crown_00
+    4300036: T0_Trunk_01
+    4300038: T0_Crown_01
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 25
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

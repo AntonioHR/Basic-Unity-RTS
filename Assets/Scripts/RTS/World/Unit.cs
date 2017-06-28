@@ -22,6 +22,12 @@ namespace RTS.World
 
 
 
+		//animação
+		public Vector3 curPos;
+		public Vector3 oldPos;
+		public Vector3 velocity;
+		public float speed;
+
         public Settings settings;
 
         //public Transform selectionIndicator;
@@ -106,10 +112,25 @@ namespace RTS.World
         }
         void Start()
         {
+			curPos = transform.position;
+			oldPos = curPos;
+			//animationHandler.setSpeed (1.0f);
             health = MaxHealth;
         }
         void Update()
         {
+
+			//cálculos
+			curPos = transform.position;
+			velocity = (curPos - oldPos) / Time.deltaTime;
+			speed = Mathf.Sqrt (Mathf.Pow (velocity.x, 2) + Mathf.Pow (velocity.y, 2) + Mathf.Pow (velocity.z, 2));
+			if (curPos != oldPos) {
+				animationHandler.SetWalking (true, speed);
+			} else {
+				animationHandler.SetWalking (false, speed);
+			}
+			oldPos = curPos;
+
             if (CurrentAction == null)
                 return;
             if (!CurrentAction.IsValid)
@@ -121,13 +142,21 @@ namespace RTS.World
             }
             switch (CurrentAction.Mode)
             {
+                //Nota de Rodrigo pra ele mesmo. Refatorar todo esse trecho!
                 case ActionMode.Attack:
                     var inRange = IsInRange;
                     navMeshAgent.SetDestination(CurrentAction.position ?? default(Vector3));
                     if (!inRange && attackHandler.IsAttacking)
+                    {
                         attackHandler.StopAttacking();
+                    }
                     else if (inRange && !attackHandler.IsAttacking)
-                        attackHandler.StartAttacking(CurrentAction.Target);
+                    {
+                        if (CurrentAction.Target != null)
+                        {
+                            attackHandler.StartAttacking(CurrentAction.Target);
+                        }
+                    }
                     break;
                 case ActionMode.Move:
                     if (attackHandler.IsAttacking)

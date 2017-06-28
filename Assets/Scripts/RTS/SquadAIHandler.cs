@@ -12,6 +12,11 @@ namespace RTS
     {
         public AIStrategy strategy;
 
+        void Start()
+        {
+            strategy.Start();
+        }
+
         void Update ()
         {
             foreach (var squad in Squad.AllSquads)
