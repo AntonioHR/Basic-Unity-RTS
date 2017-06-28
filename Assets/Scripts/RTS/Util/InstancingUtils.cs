@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RTS.Util
 {
-    public class InstancingUtils
+    public static class InstancingUtils
     {
         public static T CreateWithPreemptiveExecution<T>(Action<T> action) where T : MonoBehaviour
         {
@@ -15,6 +15,14 @@ namespace RTS.Util
             var component = obj.AddComponent<T>();
             action(component);
             obj.SetActive(true);
+            return component;
+        }
+        public static T AddWithPreemptiveExecution<T>(this GameObject owner, Action<T> action) where T : MonoBehaviour
+        {
+            owner.SetActive(false);
+            var component = owner.AddComponent<T>();
+            action(component);
+            owner.SetActive(true);
             return component;
         }
     }
