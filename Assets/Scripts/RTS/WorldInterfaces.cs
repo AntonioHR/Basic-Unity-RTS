@@ -26,7 +26,6 @@ namespace RTS
 
     public interface IHittable: ITargetable
     {
-        bool Hittable { get; }
 
         void OnHit(int damage);
 

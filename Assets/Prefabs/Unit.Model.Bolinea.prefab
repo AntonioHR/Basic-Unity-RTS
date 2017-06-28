@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 135089286839595544}
   - component: {fileID: 23466087084604318}
   - component: {fileID: 114351484367051632}
+  - component: {fileID: 114330135621920420}
   m_Layer: 8
   m_Name: Unit.Model.Bolinea
   m_TagString: Untagged
@@ -82,6 +83,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1634810304406520}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114330135621920420
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1634810304406520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e970694297e98741b1414601253be48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idle: {fileID: 2100000, guid: 37e23ab1df345ef489c42dcd50a9beff, type: 2}
+  highlight: {fileID: 2100000, guid: ac58d87789a46ee469cef5c9cea68395, type: 2}
+  MeshRenderer: {fileID: 23466087084604318}
+  unit: {fileID: 0}
 --- !u!114 &114351484367051632
 MonoBehaviour:
   m_ObjectHideFlags: 1

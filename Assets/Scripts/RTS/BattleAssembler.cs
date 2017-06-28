@@ -14,6 +14,8 @@ namespace RTS
             public MouseBattleInput.Settings mouseInput;
             public BattleSceneManager.Settings sceneManager;
             public AI.AIStrategy strategy;
+
+            public GameObject BaseUnitPrefab;
         }
 
 
@@ -31,6 +33,8 @@ namespace RTS
 
         void Awake()
         {
+            RTS.World.UnitBehavior.UnitAssembler.UnitPrefab = settings.BaseUnitPrefab;
+
             var playerCommandsObj = new GameObject("PlayerCommandsController");
             playerCommandsObj.transform.parent = this.transform;
             playerCommands = playerCommandsObj.AddComponent<PlayerCommandsController>();

@@ -10,50 +10,62 @@ namespace RTS.World.UnitBehavior
 {
     public class UnitAssembler: MonoBehaviour
     {
-        public UnitClassData classData;
+        public static GameObject UnitPrefab { get; set; }
 
-        [Space]
+
         public Transform ModelOrigin;
         public SelectionIndicator SelectionIndicator;
         public Transform CanvasHolder;
-
-        [Space]
         public NavMeshAgent agentNM;
-
-        [Space]
         public Animator animator;
         public UnitAnimationHandler animationHandler;
 
         [Space]
         public Team team;
+        public UnitClassData classData;
 
         public void Awake()
         {
             VerifyReferences();
 
+            Unit unit = AssembleUnit();
+
+            this.SelectionIndicator.unit = unit;
+
+            GameObject model = AssembleModel(unit);
+
+            VerifyModel(model);
+
             animator.runtimeAnimatorController = classData.animationController;
 
+            Destroy(this);
+        }
+
+        private Unit AssembleUnit()
+        {
+            Unit unit = gameObject.AddWithPreemptiveExecution<Unit>((u) =>
+            {
+                u.settings = classData.settings;
+                u.animationHandler = animationHandler;
+                u.StartTeam = team;
+            });
+            return unit;
+        }
+
+        private GameObject AssembleModel(Unit unit)
+        {
             var model = GameObject.Instantiate(classData.model, ModelOrigin);
             model.name = classData.modelObjectName;
-            VerifyModel(model);
             foreach (var child in model.GetComponentsInChildren<ChildOfInteractiveGameObject>())
             {
                 child.owner = gameObject;
             }
+            foreach (var highlighter in model.GetComponentsInChildren<UnitMeshHighlight>())
+            {
+                highlighter.unit = unit;
+            }
 
-
-            VerifyModel(model);
-
-            Unit unit = gameObject.AddWithPreemptiveExecution<Unit>((u) =>
-                {
-                    u.settings = classData.settings;
-                    u.animationHandler = animationHandler;
-                    u.StartTeam = team;
-                });
-
-            this.SelectionIndicator.unit = unit;
-
-            Destroy(this);
+            return model;
         }
 
         private void VerifyModel(GameObject model)

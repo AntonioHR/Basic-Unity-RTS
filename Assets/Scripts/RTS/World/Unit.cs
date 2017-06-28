@@ -9,7 +9,7 @@ using System;
 namespace RTS.World
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class Unit : MonoBehaviour, IHittable, IInteractive, IHealth, ISelectionUnit
+    public class Unit : MonoBehaviour, IHittable, IInteractive, IHealth, ISelectionUnit, IHighlightable
     {
         [System.Serializable]
         public class Settings
@@ -33,6 +33,8 @@ namespace RTS.World
 
         public event System.Action OnDestroyed;
         public event System.Action<float> OnHealthChanged;
+        public event System.Action OnHighlightOn;
+        public event System.Action OnHighlightOff;
         public event Action OnSelected
         {
             add
@@ -68,7 +70,7 @@ namespace RTS.World
 
         public bool CanTarget { get { return true; } }
         public bool Targetable { get { return true; } }
-        public bool Hittable { get { return true; } }
+        public bool Highlightable { get { return true; } }
         public bool Initialized { get; private set; }
 
         public float MaxHealth { get { return settings.MaxHealth; } }
@@ -146,6 +148,8 @@ namespace RTS.World
                 OnDestroyed();
         }
         
+
+
         public void OnHit(int damage)
         {
             var delta = -damage;
@@ -155,6 +159,18 @@ namespace RTS.World
             if (this.health <= 0)
                 Die();
         }
+
+        public void HighlightOn()
+        {
+            if (OnHighlightOn != null)
+                OnHighlightOn();
+        }
+        public void HighlightOff()
+        {
+            if (OnHighlightOff != null)
+                OnHighlightOff();
+        }
+
 
         void Die()
         {
