@@ -152,7 +152,7 @@ namespace RTS.World
                     }
                     else if (inRange && !attackHandler.IsAttacking)
                     {
-                        if (CurrentAction.Target.Destroyed == false)
+                        if (CurrentAction.Target != null)
                         {
                             attackHandler.StartAttacking(CurrentAction.Target);
                         }

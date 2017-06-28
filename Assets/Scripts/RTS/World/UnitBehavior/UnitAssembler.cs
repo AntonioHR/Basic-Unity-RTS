@@ -13,12 +13,12 @@ namespace RTS.World.UnitBehavior
         public static GameObject UnitPrefab { get; set; }
 
 
-        public Transform ModelOrigin;
+        //public Transform ModelOrigin;
         public SelectionIndicator SelectionIndicator;
         public Transform CanvasHolder;
         public NavMeshAgent agentNM;
-        public Animator animator;
-        public UnitAnimationHandler animationHandler;
+        ////public Animator animator;
+        //public UnitAnimationHandler animationHandler;
 
         [Space]
         public Team team;
@@ -28,41 +28,42 @@ namespace RTS.World.UnitBehavior
         {
             VerifyReferences();
 
-            Unit unit = AssembleUnit();
+            GameObject model = AssembleModel();
+            VerifyModel(model);
+            Unit unit = AssembleUnit(model);
 
             this.SelectionIndicator.unit = unit;
 
-            GameObject model = AssembleModel(unit);
 
-            VerifyModel(model);
+            foreach (var highlighter in model.GetComponentsInChildren<UnitMeshHighlight>())
+            {
+                highlighter.unit = unit;
+            }
 
-            animator.runtimeAnimatorController = classData.animationController;
 
             Destroy(this);
         }
 
-        private Unit AssembleUnit()
+        private Unit AssembleUnit(GameObject model)
         {
             Unit unit = gameObject.AddWithPreemptiveExecution<Unit>((u) =>
             {
                 u.settings = classData.settings;
-                u.animationHandler = animationHandler;
                 u.StartTeam = team;
+                u.animationHandler = model.GetComponentInChildren<UnitAnimationHandler>();
             });
             return unit;
         }
 
-        private GameObject AssembleModel(Unit unit)
+        private GameObject AssembleModel()
         {
-            var model = GameObject.Instantiate(classData.model, ModelOrigin);
-            model.name = classData.modelObjectName;
+            var model = GameObject.Instantiate(classData.model, transform);
+            var animator = model.GetComponent<Animator>();
+            //animator.runtimeAnimatorController = classData.animationController;
+
             foreach (var child in model.GetComponentsInChildren<ChildOfInteractiveGameObject>())
             {
                 child.owner = gameObject;
-            }
-            foreach (var highlighter in model.GetComponentsInChildren<UnitMeshHighlight>())
-            {
-                highlighter.unit = unit;
             }
 
             return model;
@@ -72,18 +73,18 @@ namespace RTS.World.UnitBehavior
         {
             Debug.Assert(model.GetComponentInChildren<Collider>() != null);
             Debug.Assert(model.GetComponentInChildren<ChildOfInteractiveGameObject>() != null);
+            Debug.Assert(model.GetComponentsInChildren<Animator>() != null);
+            Debug.Assert(model.GetComponentInChildren<UnitAnimationHandler>() != null);
         }
 
         private void VerifyReferences()
         {
-            Debug.Assert(ModelOrigin != null);
+            //Debug.Assert(ModelOrigin != null);
             Debug.Assert(SelectionIndicator != null);
             Debug.Assert(CanvasHolder != null);
 
             Debug.Assert(agentNM != null);
 
-            Debug.Assert(animator != null);
-            Debug.Assert(animationHandler != null);
 
             Debug.Assert(classData != null);
         }

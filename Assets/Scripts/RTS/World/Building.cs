@@ -52,7 +52,7 @@ namespace RTS.World
 
         public void OnHit(int damage)
         {
-            if (Destroyed == false) // isso é pra evitar que, ao sofrer ataques simultâneos, a morte ocorra (ou tente ocorrer) várias vezes
+            if (this != null) // isso é pra evitar que, ao sofrer ataques simultâneos, a morte ocorra (ou tente ocorrer) várias vezes
             {
                 this.health -= damage;
                 this.OnHealthChanged(this.health);

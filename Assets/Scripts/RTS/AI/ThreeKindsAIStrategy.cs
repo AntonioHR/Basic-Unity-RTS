@@ -72,7 +72,7 @@ namespace RTS.AI
             {// se nós estamos em modo defensivo (animosity==false) e não há alvo-posição, não há nada a fazer
                 foreach (var squaddie in squad.Units)
                 {
-                    squaddie.CurrentAction = ActionInfo.MoveAction(squad.TargetInfo.Position);
+                    squaddie.CurrentAction = UnitAction.MoveAction(squad.TargetInfo.Position);
                 }
             }
 
@@ -85,14 +85,14 @@ namespace RTS.AI
                     {
                         foreach (var squaddie in squad.Units)
                         {
-                            squaddie.CurrentAction = ActionInfo.MoveAction(squad.TargetInfo.Position);
+                            squaddie.CurrentAction = UnitAction.MoveAction(squad.TargetInfo.Position);
                         }
                     }
                     else
                     {
                         foreach (var squaddie in squad.Units)
                         {
-                            squaddie.CurrentAction = ActionInfo.EmptyAction();
+                            squaddie.CurrentAction = UnitAction.IdleAction();
                         }
                     }
                 }
@@ -115,10 +115,10 @@ namespace RTS.AI
                         {
                             localLockedEnemies.Add(squaddie, null);
                         }
-                        else if (localLockedEnemies[squaddie]!=null && localLockedEnemies[squaddie].Destroyed)
-                        {
-                            localLockedEnemies[squaddie] = null;
-                        }
+                        //else if (localLockedEnemies[squaddie] != null && localLockedEnemies[squaddie].Destroyed)
+                        //{
+                        //    localLockedEnemies[squaddie] = null;
+                        //}
                     }
 
                             Dictionary<IHittable, int> numberOfSiblingsOnEnemy;
@@ -166,20 +166,20 @@ namespace RTS.AI
                             }
                             if (currentTarget != null)
                             {
-                                squaddie.CurrentAction = ActionInfo.AttackAction(currentTarget);
+                                squaddie.CurrentAction = UnitAction.AttackAction(currentTarget);
                                 numberOfSiblingsOnEnemy[currentTarget]++; // já foi checado antes se todos os inimigos tinham uma entrada no dicionário
                             }
                             else
                             {
                                 //seguir os outros caras e ficar pronto pra iniciar combate.
                                 //o comportamento a seugir é temporário!
-                                squaddie.CurrentAction = ActionInfo.EmptyAction();
+                                squaddie.CurrentAction = UnitAction.IdleAction();
                             }
                             localLockedEnemies[squaddie] = currentTarget;
                         }
                         else
                         {
-                            squaddie.CurrentAction = ActionInfo.AttackAction(localLockedEnemies[squaddie]);
+                            squaddie.CurrentAction = UnitAction.AttackAction(localLockedEnemies[squaddie]);
                         }
                     }
                 }

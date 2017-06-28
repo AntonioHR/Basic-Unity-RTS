@@ -67,7 +67,7 @@ namespace RTS.AI
             {// se nós estamos em modo defensivo (animosity==false) e não há alvo-posição, não há nada a fazer
                 foreach (var squaddie in squad.Units)
                 {
-                    squaddie.CurrentAction = ActionInfo.MoveAction(squad.TargetInfo.Position);
+                    squaddie.CurrentAction = UnitAction.MoveAction(squad.TargetInfo.Position);
                 }
             }
 
@@ -80,14 +80,14 @@ namespace RTS.AI
                     {
                         foreach (var squaddie in squad.Units)
                         {
-                            squaddie.CurrentAction = ActionInfo.MoveAction(squad.TargetInfo.Position);
+                            squaddie.CurrentAction = UnitAction.MoveAction(squad.TargetInfo.Position);
                         }
                     }
                     else
                     {
                         foreach (var squaddie in squad.Units)
                         {
-                            squaddie.CurrentAction = ActionInfo.EmptyAction();
+                            squaddie.CurrentAction = UnitAction.IdleAction();
                         }
                     }
                 }
@@ -106,7 +106,7 @@ namespace RTS.AI
                                 currentTarget = enemy;
                             }
                         }
-                        squaddie.CurrentAction = ActionInfo.AttackAction(currentTarget);
+                        squaddie.CurrentAction = UnitAction.AttackAction(currentTarget);
                     }
                 }
             }

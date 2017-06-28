@@ -11,3 +11,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3ba564870fc34f4780f32b2232fc922, type: 3}
   m_Name: New Three Kinds AI Strategy
   m_EditorClassIdentifier: 
+  viewRadius: 10
