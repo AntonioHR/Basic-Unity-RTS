@@ -10,7 +10,7 @@ namespace RTS.World
         [System.Serializable]
         public class Settings
         {
-            public int MaxHealth = 10;
+            public int MaxHealth = 20;
             public int DeathMoraleLoss = 1;
         }
 
@@ -52,10 +52,13 @@ namespace RTS.World
 
         public void OnHit(int damage)
         {
-            this.health -= damage;
-            this.OnHealthChanged(this.health);
-            if (this.health <= 0)
-                OnHealthZero();
+            if (Destroyed == false) // isso é pra evitar que, ao sofrer ataques simultâneos, a morte ocorra (ou tente ocorrer) várias vezes
+            {
+                this.health -= damage;
+                this.OnHealthChanged(this.health);
+                if (this.health <= 0)
+                    OnHealthZero();
+            }
         }
         
         public void OnHealthZero()

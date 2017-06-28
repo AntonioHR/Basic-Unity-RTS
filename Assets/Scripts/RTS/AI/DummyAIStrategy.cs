@@ -20,8 +20,9 @@ namespace RTS.AI
         }
         Dictionary<Squad, State> states;
 
-        public void Start()
+        public override void Start()
         {
+            Debug.Log("potato");
             states = new Dictionary<Squad, State>();
         }
         //
