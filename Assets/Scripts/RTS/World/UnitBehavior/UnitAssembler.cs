@@ -13,12 +13,9 @@ namespace RTS.World.UnitBehavior
         public static GameObject UnitPrefab { get; set; }
 
 
-        //public Transform ModelOrigin;
         public SelectionIndicator SelectionIndicator;
         public Transform CanvasHolder;
         public NavMeshAgent agentNM;
-        ////public Animator animator;
-        //public UnitAnimationHandler animationHandler;
 
         [Space]
         public Team team;
@@ -59,7 +56,6 @@ namespace RTS.World.UnitBehavior
         {
             var model = GameObject.Instantiate(classData.model, transform);
             var animator = model.GetComponent<Animator>();
-            //animator.runtimeAnimatorController = classData.animationController;
 
             foreach (var child in model.GetComponentsInChildren<ChildOfInteractiveGameObject>())
             {
@@ -79,7 +75,6 @@ namespace RTS.World.UnitBehavior
 
         private void VerifyReferences()
         {
-            //Debug.Assert(ModelOrigin != null);
             Debug.Assert(SelectionIndicator != null);
             Debug.Assert(CanvasHolder != null);
 

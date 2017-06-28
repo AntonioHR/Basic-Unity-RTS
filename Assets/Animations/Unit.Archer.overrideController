@@ -5,7 +5,7 @@ AnimatorOverrideController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ArcherUnit
+  m_Name: Unit.Archer
   m_Controller: {fileID: 9100000, guid: 75366ce85cbd1544bba82fc051456a0e, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: e89666eaddaa9a74597fd634c066464e, type: 3}
